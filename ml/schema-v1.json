@@ -1,0 +1,53 @@
+{
+  "schema_version": "v1",
+  "description": "Input contract for the student fail-risk prediction (UCI Student Performance, Portuguese file). Each record is one student.",
+  "id_field": {
+    "name": "row_id",
+    "type": "string",
+    "rule": "required, non-empty, unique within one request"
+  },
+  "features": [
+    {
+      "name": "G1",
+      "type": "integer",
+      "min": 0,
+      "max": 20,
+      "meaning": "First-period grade (0-20)"
+    },
+    {
+      "name": "failures",
+      "type": "integer",
+      "min": 0,
+      "max": 4,
+      "meaning": "Number of past class failures (0-3; 4 means 3 or more)"
+    },
+    {
+      "name": "studytime",
+      "type": "integer",
+      "min": 1,
+      "max": 4,
+      "meaning": "Weekly study time: 1 = <2h, 2 = 2-5h, 3 = 5-10h, 4 = >10h"
+    }
+  ],
+  "missing_value_policy": "reject: a record with a missing, null or non-integer feature is an error; no imputation",
+  "unknown_field_policy": "reject: any field other than row_id and the listed features is an error (this blocks G2, G3 and other unverified fields)",
+  "forbidden_inputs": ["G2", "G3"],
+  "output": {
+    "row_id": "same value as the input record",
+    "score": "finite number between 0 and 1 (estimated risk of G3 < 10)",
+    "risk_flag": "boolean, true when score >= threshold",
+    "version": "model version string; 'toy-0' means toy output, not a model"
+  },
+  "examples": {
+    "valid": [
+      {"row_id": "synthetic-001", "G1": 8, "failures": 1, "studytime": 1},
+      {"row_id": "synthetic-002", "G1": 15, "failures": 0, "studytime": 3}
+    ],
+    "invalid": [
+      {"record": {"row_id": "bad-001", "G1": 25, "failures": 0, "studytime": 2}, "reason": "G1 out of range (max 20)"},
+      {"record": {"row_id": "bad-002", "G1": 12, "studytime": 2}, "reason": "missing feature: failures"},
+      {"record": {"row_id": "bad-003", "G1": 12, "failures": 0, "studytime": 2, "G2": 13}, "reason": "forbidden field: G2"},
+      {"record": {"row_id": "bad-004", "G1": "12", "failures": 0, "studytime": 2}, "reason": "G1 is a string, not an integer"}
+    ]
+  }
+}

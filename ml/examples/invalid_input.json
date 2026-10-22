@@ -1,0 +1,4 @@
+{"records": [
+  {"row_id": "bad-001", "G1": 25, "failures": 0, "studytime": 2},
+  {"row_id": "bad-003", "G1": 12, "failures": 0, "studytime": 2, "G2": 13}
+]}
