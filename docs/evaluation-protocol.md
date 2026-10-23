@@ -16,7 +16,7 @@ The broad topic is approved. The reduced scope and whether a locally running web
 - Verify the meaning of the `failures` categories with Carla before preprocessing.
 
 ## 3. Shared split and leakage prevention
-Use one stratified split, preserving approximately the same class proportions: **454 training / 97 validation / 98 test** observations. With seed 42, first allocate 70% to training, then split the remainder equally into validation and test, stratifying both stages. Record library versions and save the actual row assignments; a seed alone is not a complete reproducibility record.
+Use one stratified split, preserving approximately the same class proportions: **276 training / 59 validation / 60 test** observations. With seed 42, first allocate 70% to training, then split the remainder equally into validation and test, stratifying both stages. Record library versions and save the actual row assignments; a seed alone is not a complete reproducibility record.
 
 Assign stable source-row IDs. Check full-row duplicates before splitting; stop and resolve any found rather than silently changing the sample size. Check that split IDs are disjoint and cover all 649 records, and that duplicate full-row hashes do not cross splits. Record input-file hash and class counts per split.
 
@@ -37,11 +37,6 @@ Freeze the selected training-fitted pipeline and threshold. Do not refit on trai
 
 ## 5. Reporting and manual check
 Report F1, precision, recall, TP, FP, FN, TN, total sample count and class counts. Clearly distinguish validation comparisons from final test results. Do not claim calibrated probabilities, causality or a guaranteed performance level.
-
-Illustrative example, not project results: TP=3, FP=1, FN=2, TN=4.
-- Precision = 3/(3+1) = **0.75**.
-- Recall = 3/(3+2) = **0.60**.
-- F1 = 2TP/(2TP+FP+FN) = 6/9 = **0.667**.
 
 If a metric's denominator is zero, use 0.0 as the software reporting convention and explicitly mark that metric as undefined for that case.
 
