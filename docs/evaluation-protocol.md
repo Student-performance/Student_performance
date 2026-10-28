@@ -12,10 +12,10 @@ Edupredict is a student web-project prototype that estimates the risk of a final
 ## 2. Data, target and inputs
 - Data: UCI Student Performance, `student-mat.csv` (395 rows, 33 columns, `;` separator). Do not combine it with the Portuguese-language subject file (`student-por.csv`). Verify the actual CSV against Carla's audit before splitting.
 - Target: class 1 if `G3 < 10`, class 0 if `G3 >= 10`. Keep rows with `G3 = 0`; do not interpret them as dropout.
-- Inputs: `G1`, `failures`, `studytime` (the current inference contract). No demographics.
+- Inputs: All 31 canonical features from Carla's Mathematics audit (30 demographic and school attributes plus `G1`).
 - Excluded: `G2` (later information) and `G3` (defines the outcome).
-- Intended prediction point: after the first grading period, when `G1` exists. Whether `failures` and `studytime` are available at that moment is unverified, so results are described as retrospective, with no intervention-window or causal-benefit claim.
-- Intended population and canonical feature list: taken from Carla's Mathematics audit (all 31 canonical features, i.e. 33 columns minus `G2` and `G3`, if the audit uses that definition); list them in the requirements file.
+- Intended prediction point: after the first grading period, when `G1` exists. The availability of all other features at that exact moment is unverified, so results are described as retrospective, with no intervention-window or causal-benefit claim.
+- Intended population and canonical feature list: taken directly from Carla's Mathematics audit (33 total columns minus `G2` and `G3`).
 - Category meanings of `failures` (the UCI description says values above 2 are coded as a single "many" category; check what the actual file contains) and `studytime` are confirmed with Carla before preprocessing.
 
 ## 3. Shared split and leakage control
@@ -30,8 +30,8 @@ Candidates: Logistic Regression and one fixed Random Forest. The most-frequent D
 
 Proposed fixed settings (Carla confirms before training):
 - Preprocessing: standardize `G1`; one-hot encode `failures` and `studytime` with explicitly listed categories and unknown categories ignored, so a category missing from one split does not crash the pipeline.
-- Logistic Regression: L2, C=1, liblinear, max_iter=1000, no class weights, seed 42.
-- Random Forest: 100 trees, max_depth=3, min_samples_leaf=5, max_features=sqrt, bootstrap on, no class weights, seed 42.
+- Logistic Regression: L2, C=1, liblinear, max_iter=1000, class_weight='balanced', seed 42.
+- Random Forest: 100 trees, max_depth=5, min_samples_leaf=5, max_features=sqrt, bootstrap on, class_weight='balanced', seed 42.
 - Record the full effective configuration. No further tuning on validation results.
 
 Decision rule:
