@@ -30,7 +30,7 @@ Each condition is met only when the named evidence is attached to card S1-ST-01 
 | Evaluation protocol | `docs/evaluation-protocol.md` | Madina | In review: PR #3 is open and not yet merged |
 | Requirements v1 | `docs/requirements-v1.md` | Madina | Draft; awaiting review |
 | Data audit and inference contract | AI deliverable (S1-AI-01) | Carla | In progress; being redone for `student-mat.csv` |
-Scope-confirmation draft for the instructor | docs/professor-scope-note.md | Madina | Draft; not sent, no answer yet |
+Scope-confirmation draft for the instructor | `docs/professor-scope-note.md` | Madina | Draft; not sent, no answer yet |
 | Individual sprint summary | S1-ST-SUMMARY | Madina | Not started |
 
 Complete this table against the official course document list before submission.
