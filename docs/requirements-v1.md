@@ -3,7 +3,7 @@ Owner: Madina Khaimuldina (ST) · Reviewer: Carla Susana López Puma (AI)
 Status: DRAFT. Instructor scope confirmation is pending. No checks or training have been run; every condition below is a plan until its evidence is attached.
 
 ## 1. Product and scope
-- Purpose: Edupredict is a student web-project prototype that estimates the risk of a final grade (`G3`) below 10 (0–20 scale) from the first-period grade and two questionnaire fields.
+- Purpose: Edupredict is a student web-project prototype that estimates the risk of a final grade (`G3`) below 10 (0–20 scale) from the first-period grade and all canonical features (including demographic and school attributes).
 - Nature: an offline, retrospective experiment. It gives no intervention guarantee, no causal claim and no real-time early warning, and it must not be used for decisions about real students.
 - Deliverables: (a) the offline evaluation protocol and model comparison; (b) a locally running web demo. Whether a local demo is sufficient, and the reduced scope itself, are not yet confirmed by the instructor.
 
@@ -14,7 +14,7 @@ Each condition is met only when the named evidence is attached to card S1-ST-01 
 |---|---|---|---|
 | R1 | The working file is `student-mat.csv`: 395 rows, 33 columns, `;` separator; the SHA-256 hash is recorded. | Audit script output on this file. | Pending (Carla's audit is being redone for this file) |
 | R2 | Target is `1` if `G3 < 10`, else `0`. Rows with `G3 = 0` are kept. Class counts overall and per split are recorded. | Printed counts. | Pending |
-| R3 | Model inputs are exactly `G1`, `failures`, `studytime`. `G2`, `G3` and demographic fields are not used. | Feature list in the pipeline code. | Pending |
+| R3 | Model inputs are all 31 canonical features from Carla's Mathematics audit (30 demographic and school attributes plus G1). G2 and G3 are excluded. | Feature list in the pipeline code. | Pending
 | R4 | One stratified split with seed 42 gives 276 train / 59 validation / 60 test records. Split IDs are disjoint, together cover all 395 records, and are saved to a file. | Printed sizes and an ID-overlap check. | Pending |
 | R5 | There are no exact duplicate rows. If any are found, the work stops and the team resolves them before training. | Duplicate count printed before the split. | Pending |
 | R6 | Preprocessing (scaling, encoding) is fit on training data only and applied unchanged to validation and test. | Code review by Carla. | Pending |
@@ -30,7 +30,7 @@ Each condition is met only when the named evidence is attached to card S1-ST-01 
 | Evaluation protocol | `docs/evaluation-protocol.md` | Madina | In review: PR #3 is open and not yet merged |
 | Requirements v1 | `docs/requirements-v1.md` | Madina | Draft; awaiting review |
 | Data audit and inference contract | AI deliverable (S1-AI-01) | Carla | In progress; being redone for `student-mat.csv` |
-| Scope-confirmation draft for the instructor | `docs/scope-confirmation-draft.md` | Madina | Draft; not sent, no answer yet |
+Scope-confirmation draft for the instructor | docs/professor-scope-note.md | Madina | Draft; not sent, no answer yet |
 | Individual sprint summary | S1-ST-SUMMARY | Madina | Not started |
 
 Complete this table against the official course document list before submission.
