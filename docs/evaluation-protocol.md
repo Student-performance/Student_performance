@@ -1,53 +1,55 @@
-# Edupredict — Evaluation Protocol
-Owner: Madina Khaimuldina (ST) · Reviewer: Carla Susana López Puma (AI) · Sprint 1
+# Edupredict — Evaluation Protocol (S1-ST-01, Sprint 1)
+Owner: Madina Khaimuldina (ST) · Reviewer: Carla Susana López Puma (AI)
+Status: DRAFT until the items in Section 7 are confirmed and this file is committed. It states planned rules only; no checks or training have been run yet.
 
-## 1. Product, scope and changes
-Edupredict is a student web-project prototype intended to estimate the risk of a final grade below 10 using first-period grades and selected student information. This experiment evaluates whether simple models can support that aim; it does not establish a reliable real-world early-warning service.
+## 1. Purpose and scope status
+Edupredict is a student web-project prototype that estimates the risk of a final grade below 10 (Portuguese 0–20 scale) from first-period grades and a few student fields. This experiment tests whether simple models can support that aim. It does not establish a reliable real-world early-warning service.
 
-**Revision:** use the 649-record Portuguese-subject dataset as the current working basis, replacing the earlier 395-record plan. Select the model using validation F1 for class 1. These rules are defined in Sprint 1; model training and measured scores may follow in Sprint 2. Final confirmation of the dataset change is still required.
+- Dataset: the 395-record Mathematics file (`student-mat.csv`). This replaces the earlier dataset choice; the change still needs final confirmation (Section 7).
+- Topic: the broad topic is approved. The reduced scope and whether a locally running website/demo is sufficient are NOT yet confirmed by the instructor. Offline model comparison is one part of the project and does not by itself remove the website deliverable.
+- Why F1 for class 1: the at-risk class is the minority class, so accuracy would reward a model that never flags anyone.
 
-The broad topic is approved. The reduced scope and whether a locally running website/demo is sufficient remain subject to instructor confirmation. Offline model comparison is one part of the project; it does not by itself remove the website deliverable.
+## 2. Data, target and inputs
+- Data: UCI Student Performance, `student-mat.csv` (395 rows, 33 columns, `;` separator). Do not combine it with the Portuguese-language subject file (`student-por.csv`). Verify the actual CSV against Carla's audit before splitting.
+- Target: class 1 if `G3 < 10`, class 0 if `G3 >= 10`. Keep rows with `G3 = 0`; do not interpret them as dropout.
+- Inputs: `G1`, `failures`, `studytime` (the current inference contract). No demographics.
+- Excluded: `G2` (later information) and `G3` (defines the outcome).
+- Intended prediction point: after the first grading period, when `G1` exists. Whether `failures` and `studytime` are available at that moment is unverified, so results are described as retrospective, with no intervention-window or causal-benefit claim.
+- Intended population and canonical feature list: taken from Carla's Mathematics audit (all 31 canonical features, i.e. 33 columns minus `G2` and `G3`, if the audit uses that definition); list them in the requirements file.
+- Category meanings of `failures` (the UCI description says values above 2 are coded as a single "many" category; check what the actual file contains) and `studytime` are confirmed with Carla before preprocessing.
 
-## 2. Dataset, target and inputs
-- **Data:** UCI Student Performance, `student-por.csv`, 649 observations according to the AI programmer's audit. Do not combine it with the mathematics dataset. Verify the actual CSV against the audit before splitting.
-- **Target:** class 1 if `G3 < 10`; class 0 if `G3 >= 10`. Retain zero final grades; do not automatically interpret them as dropout.
-- **Inputs:** `G1`, `failures`, `studytime`, matching the current inference contract. Demographics are not included.
-- **Intended prediction point:** after the first grading period, once G1 is available. Exclude G2 because it is later information; exclude G3 because it defines the outcome. Confirm the availability of the other inputs at that point. Until their collection timing is verified, describe results as retrospective.
-- Verify the meaning of the `failures` categories with Carla before preprocessing.
-
-## 3. Shared split and leakage prevention
-Use one stratified split, preserving approximately the same class proportions: **454 training / 97 validation / 98 test** observations. With seed 42, first allocate 70% to training, then split the remainder equally into validation and test, stratifying both stages. Record library versions and save the actual row assignments; a seed alone is not a complete reproducibility record.
-
-Assign stable source-row IDs. Check full-row duplicates before splitting; stop and resolve any found rather than silently changing the sample size. Check that split IDs are disjoint and cover all 649 records, and that duplicate full-row hashes do not cross splits. Record input-file hash and class counts per split.
-
-Fit all preprocessing only on training data, then apply it unchanged to validation and test. Keep test labels and scores out of model selection.
+## 3. Shared split and leakage control
+- One stratified split on the target, seed 42, in two stages: (1) 70% train / 30% remainder; (2) remainder split 50/50 into validation and test, stratified. Expected sizes: 276 train / 59 validation / 60 test. Check the sizes after running; do not assume them.
+- Assign a stable source-row ID to every record. Save the actual ID lists per split, library versions, the input-file hash and class counts per split. A seed alone is not a reproducibility record.
+- Before splitting, check for exact full-row duplicates. If any exist, stop and resolve them with the team; do not silently change the sample size.
+- Verify that the three ID sets are disjoint and together cover all 395 records.
+- Fit all preprocessing on training data only, then apply it unchanged to validation and test. Test labels and scores never enter model selection.
 
 ## 4. Models and selection
-Compare a most-frequent Dummy baseline, Logistic Regression and one fixed Random Forest. Dummy is a reference, not a candidate for the tie-break rule.
+Candidates: Logistic Regression and one fixed Random Forest. The most-frequent Dummy classifier is a reference only and does not take part in selection.
 
-**Proposed fixed settings — Carla to confirm before training:**
-- Preprocessing: standardize G1; one-hot encode failures and studytime after confirming their allowed categories.
-- Logistic Regression: L2 penalty, C=1, liblinear solver, max_iter=1000, no class weighting, seed 42.
-- Random Forest: 100 trees, max_depth=3, min_samples_leaf=5, max_features=sqrt, bootstrap enabled, no class weighting, seed 42.
-Record the complete effective configuration and library versions. Do not tune additional settings on validation results.
+Proposed fixed settings (Carla confirms before training):
+- Preprocessing: standardize `G1`; one-hot encode `failures` and `studytime` with explicitly listed categories and unknown categories ignored, so a category missing from one split does not crash the pipeline.
+- Logistic Regression: L2, C=1, liblinear, max_iter=1000, no class weights, seed 42.
+- Random Forest: 100 trees, max_depth=3, min_samples_leaf=5, max_features=sqrt, bootstrap on, no class weights, seed 42.
+- Record the full effective configuration. No further tuning on validation results.
 
-Predict class 1 when its model probability is **>= 0.5**. Select Logistic Regression or Random Forest by the highest **validation F1 for class 1**; an exact tie before rounding selects Logistic Regression. Do not adjust the threshold.
+Decision rule:
+- Predict class 1 when P(class 1) >= 0.5. The threshold is fixed and is not adjusted.
+- Select the candidate with the higher validation F1 for class 1. An exact tie (before rounding) selects Logistic Regression.
+- Freeze the selected pipeline and threshold. Do not refit on train + validation.
+- Evaluate the selected model and the Dummy baseline once on the test set. Nothing is selected or changed afterwards based on test results.
 
-Freeze the selected training-fitted pipeline and threshold. Do not refit on training plus validation under this protocol. Then evaluate the selected model and the predeclared Dummy baseline once on the test set. No further selection uses test results.
+## 5. Reporting
+- Report: F1, precision, recall, TP, FP, FN, TN, total sample size and class counts, separately for validation (comparison) and test (final).
+- Zero denominator: if precision or recall has a zero denominator (for example, Dummy never predicts class 1, so precision is 0/0), report 0.0 as a software convention and mark the metric as undefined in that case.
+- No claims of calibrated probabilities, causality or guaranteed performance.
 
-## 5. Reporting and manual check
-Report F1, precision, recall, TP, FP, FN, TN, total sample count and class counts. Clearly distinguish validation comparisons from final test results. Do not claim calibrated probabilities, causality or a guaranteed performance level.
+## 6. Limitations
+- The validation set (~59 rows) and test set (~60 rows) contain only about 20 positive cases each, so one or two students can change F1 noticeably. A small difference between candidates is not evidence that one is better.
+- The data come from one school and one subject. Results do not transfer automatically to other students.
 
-Illustrative example, not project results: TP=3, FP=1, FN=2, TN=4.
-- Precision = 3/(3+1) = **0.75**.
-- Recall = 3/(3+2) = **0.60**.
-- F1 = 2TP/(2TP+FP+FN) = 6/9 = **0.667**.
-
-If a metric's denominator is zero, use 0.0 as the software reporting convention and explicitly mark that metric as undefined for that case.
-
-## 6. Agreement and evidence
-Madina (ST) maintains the statistical protocol; Carla (AI) reviews its compatibility with the data and implementation. Confirm the 649-record change, category meanings and proposed model settings, then commit the agreed protocol before training. Log any later deviations with reasons.
-
-This document states planned rules, not proof that checks or training have run. Attach actual check outputs when available. Separate Sprint 1 deliverables remain: requirements with observable acceptance conditions and the course-document inventory; the instructor scope-confirmation draft; task evidence, actual hours and the named review request.
-
-Basis: S1-ST-01 task card, the supplied AI data audit and inference contract, and the team's reported decision to use F1. Dataset counts still require verification against the CSV.
+## 7. Agreement and evidence
+Open before committing: (a) instructor confirmation of the scope and the dataset change; (b) Carla's confirmation of category meanings and model settings; (c) verification of the 395-row file against the audit.
+After confirmation, commit this protocol before any training, and log later deviations with reasons. Attach actual check outputs when available.
+Other Sprint 1 deliverables: requirements with observable acceptance conditions and the course-document inventory; the instructor scope-confirmation draft; task evidence, actual hours and the named review request.
