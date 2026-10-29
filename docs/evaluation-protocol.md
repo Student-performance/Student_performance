@@ -16,7 +16,7 @@ Edupredict is a student web-project prototype that estimates the risk of a final
 - Excluded: `G2` (later information) and `G3` (defines the outcome).
 - Intended prediction point: after the first grading period, when `G1` exists. The availability of all other features at that exact moment is unverified, so results are described as retrospective, with no intervention-window or causal-benefit claim.
 - Intended population and canonical feature list: taken directly from Carla's Mathematics audit (33 total columns minus `G2` and `G3`).
-- Category meanings of `failures` (the UCI description says values above 2 are coded as a single "many" category; check what the actual file contains) and `studytime` are confirmed with Carla before preprocessing.
+- Category values checked by Carla on `data/student-mat.csv`: `failures` contains only 0, 1, 2, 3 (counts 312/50/17/16; no value 4 appears, so 3 is the top category); `studytime` contains 1–4 (counts 105/198/65/27; 1 = <2h, 2 = 2–5h, 3 = 5–10h, 4 = >10h per week). Both are kept as ordinal numeric features.
 
 ## 3. Shared split and leakage control
 - One stratified split on the target, seed 42, in two stages: (1) 70% train / 30% remainder; (2) remainder split 50/50 into validation and test, stratified. Expected sizes: 276 train / 59 validation / 60 test. Check the sizes after running; do not assume them.
@@ -50,6 +50,6 @@ Decision rule:
 - The data come from one school and one subject. Results do not transfer automatically to other students.
 
 ## 7. Agreement and evidence
-Open before committing: (a) instructor confirmation of the scope and the dataset change; (b) Carla's confirmation of category meanings and model settings; (c) verification of the 395-row file against the audit.
+Open before committing: (a) instructor confirmation of the scope and the dataset change. Done: (b) Carla confirmed the category values (Section 2) and the model settings in Section 4; (c) the 395-row, 33-column file matches the audit in PR #2 (SHA-256 e47f9ee225e1ee6e69b7564e6dac7123e80b8486677fe111f351964cef5dec80).
 After confirmation, commit this protocol before any training, and log later deviations with reasons. Attach actual check outputs when available.
 Other Sprint 1 deliverables: requirements with observable acceptance conditions and the course-document inventory; the instructor scope-confirmation draft; task evidence, actual hours and the named review request.
