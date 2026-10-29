@@ -36,7 +36,7 @@ Proposed fixed settings (Carla confirms before training):
 
 Decision rule:
 - Predict class 1 when P(class 1) >= 0.5. The threshold is fixed and is not adjusted.
-- Select the candidate with the higher validation F1 for class 1. An exact tie (before rounding) selects Logistic Regression.
+- Select the candidate with the higher validation F1 for class 1. If the two F1 values differ by 0.001 or less (computed before rounding), select Logistic Regression as the simpler, more interpretable model.
 - Freeze the selected pipeline and threshold. Do not refit on train + validation.
 - Evaluate the selected model and the Dummy baseline once on the test set. Nothing is selected or changed afterwards based on test results.
 
