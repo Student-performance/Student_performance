@@ -29,7 +29,7 @@ Edupredict is a student web-project prototype that estimates the risk of a final
 Candidates: Logistic Regression and one fixed Random Forest. The most-frequent Dummy classifier is a reference only and does not take part in selection.
 
 Proposed fixed settings (Carla confirms before training):
-- Preprocessing: standardize `G1`; one-hot encode `failures` and `studytime` with explicitly listed categories and unknown categories ignored, so a category missing from one split does not crash the pipeline.
+   - Preprocessing: one `ColumnTransformer` fit on the training split only. The 14 numeric features (`age`, `Medu`, `Fedu`, `traveltime`, `studytime`, `failures`, `famrel`, `freetime`, `goout`, `Dalc`, `Walc`, `health`, `absences`, `G1`) are standardized with `StandardScaler`; ordinal codes such as `failures` and `studytime` stay numeric. The 17 categorical features (`school`, `sex`, `address`, `famsize`, `Pstatus`, `Mjob`, `Fjob`, `reason`, `guardian`, `schoolsup`, `famsup`, `paid`, `activities`, `nursery`, `higher`, `internet`, `romantic`) are one-hot encoded with the category lists from `ml/contract.py` and `handle_unknown='ignore'`, so a category missing from one split does not crash the pipeline. Feature names and ranges follow `ml/schemas/schema-v1.json`.
 - Logistic Regression: L2, C=1, liblinear, max_iter=1000, class_weight='balanced', seed 42.
 - Random Forest: 100 trees, max_depth=5, min_samples_leaf=5, max_features=sqrt, bootstrap on, class_weight='balanced', seed 42.
 - Record the full effective configuration. No further tuning on validation results.
