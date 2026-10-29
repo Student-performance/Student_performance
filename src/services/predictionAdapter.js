@@ -23,8 +23,8 @@ function executePrediction(rows, options = {}) {
         const timeout = Number.isFinite(requested) ? Math.min(15000, Math.max(1, requested)) : 15000;
         try {
             child = spawn(process.env.PYTHON_PATH || 'python', [
-                path.resolve(__dirname, '../../ml/predict.py'), '--model',
-                options.modelPath || path.resolve(__dirname, '../../ml/models/student_risk_v1.pkl'), '--threshold', '0.5'
+                path.resolve(__dirname, '../ml/predict.py'), '--model',
+                options.modelPath || path.resolve(__dirname, '../ml/models/student_risk_v1.pkl'), '--threshold', '0.5'
             ], { shell: false });
         } catch (error) { cleanup(); settle(error); return; }
         const chunks = [];

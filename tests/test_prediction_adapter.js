@@ -1,6 +1,6 @@
 const assert = require('node:assert/strict');
 const { executePrediction } = require('../src/services/predictionAdapter');
-const rows = require('../../ml/examples/valid_two_rows.json');
+const rows = require('../ml/examples/valid_two_rows.json');
 
 if (!rows){ throw new Error('AI member has not yet done the prediction adapter or the rows data is missing');}
 (async () => {

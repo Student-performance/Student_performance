@@ -1,0 +1,30 @@
+{
+  "name": "student-performance",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "migrate": "node src/db/migrate.js",
+    "seed": "node src/db/seed.js",
+    "test": "node --test tests/test_*.js"
+  },
+  "dependencies": {
+    "bcryptjs": "3.0.3",
+    "better-sqlite3": "12.4.1",
+    "connect-sqlite3": "0.9.16",
+    "csurf": "^1.2.2",
+    "dotenv": "16.4.5",
+    "ejs": "3.1.10",
+    "express": "^4.22.3",
+    "express-ejs-layouts": "2.5.1",
+    "express-session": "^1.19.0",
+    "multer": "^2.5.0"
+  },
+  "allowScripts": {
+    "better-sqlite3@12.4.1": true,
+    "sqlite3@5.1.7": true
+  }
+}

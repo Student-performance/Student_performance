@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const bcrypt = require('bcryptjs');
-const { randromUUID } = require('node:crypto');
+const bcrypt = require('bcrypt');
+const { randomUUID } = require('node:crypto');
 const db = require('../db/connection');
 const { ensureAuthenticated } = require('../middleware/auth');
 
