@@ -1,8 +1,11 @@
-node_modules/
-.venv/
-.env
-*.sqlite
-*.sqlite-wal
-*.sqlite-shm
-__pycache__/
-*.pyc
+   node_modules/
+   .venv/
+   .env
+   *.sqlite
+   *.sqlite-wal
+   *.sqlite-shm
+   *.db
+   *.db-shm
+   *.db-wal
+   __pycache__/
+   *.pyc
