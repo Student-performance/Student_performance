@@ -14,7 +14,7 @@ Each condition is met only when the named evidence is attached to card S1-ST-01 
 |---|---|---|---|
 | R1 | The working file is `student-mat.csv`: 395 rows, 33 columns, `;` separator; the SHA-256 hash is recorded. | Audit script output on this file. | Pending (Carla's audit is being redone for this file) |
 | R2 | Target is `1` if `G3 < 10`, else `0`. Rows with `G3 = 0` are kept. Class counts overall and per split are recorded. | Printed counts. | Pending |
-| R3 | Model inputs are all 31 canonical features from Carla's Mathematics audit (30 demographic and school attributes plus G1). G2 and G3 are excluded. | Feature list in the pipeline code. | Pending
+| R3 | Model inputs are all 31 canonical features from Carla's Mathematics audit (30 demographic and school attributes plus G1). G2 and G3 are excluded. | Feature list in the pipeline code. | Pending |
 | R4 | One stratified split with seed 42 gives 276 train / 59 validation / 60 test records. Split IDs are disjoint, together cover all 395 records, and are saved to a file. | Printed sizes and an ID-overlap check. | Pending |
 | R5 | There are no exact duplicate rows. If any are found, the work stops and the team resolves them before training. | Duplicate count printed before the split. | Pending |
 | R6 | Preprocessing (scaling, encoding) is fit on training data only and applied unchanged to validation and test. | Code review by Carla. | Pending |
@@ -30,7 +30,7 @@ Each condition is met only when the named evidence is attached to card S1-ST-01 
 | Evaluation protocol | `docs/evaluation-protocol.md` | Madina | In review: PR #3 is open and not yet merged |
 | Requirements v1 | `docs/requirements-v1.md` | Madina | Draft; awaiting review |
 | Data audit and inference contract | AI deliverable (S1-AI-01) | Carla | In progress; being redone for `student-mat.csv` |
-Scope-confirmation draft for the instructor | `docs/professor-scope-note.md` | Madina | Draft; not sent, no answer yet |
+| Scope-confirmation draft for the instructor | `docs/professor-scope-note.md` | Madina | Draft; not sent, no answer yet |
 | Individual sprint summary | S1-ST-SUMMARY | Madina | Not started |
 
 Complete this table against the official course document list before submission.
@@ -46,6 +46,6 @@ Example 2 (no positive predictions, as the Dummy gives): TP = 0, FP = 0, FN > 0.
 - Recall = 0/FN = 0.0 (defined). F1 = 0.0; note that it was computed with an undefined precision.
 
 ## 5. Limits
-- Results are retrospective. The collection time of `failures` and `studytime` is unverified, so no claim is made about when a prediction could be used in practice.
+- Results are retrospective. Only `G1` is known to exist after the first grading period; the collection time of the other 30 features is unverified, so no claim is made about when a prediction could be used in practice.
 - The test set has about 60 records and about 20 positive cases, so scores are imprecise and a small difference between models is not evidence that one is better.
-- The data come from one school and one subject (2005–2006), and `studytime` is self-reported.
+- The data come from one school and one subject (2005–2006), and questionnaire fields such as `studytime`, `freetime` or `Dalc` are self-reported.
