@@ -19,7 +19,7 @@ Each condition is met only when the named evidence is attached to card S1-ST-01 
 | R5 | There are no exact duplicate rows. If any are found, the work stops and the team resolves them before training. | Duplicate count printed before the split. | Source audit (PR #2): 0 exact duplicates; re-check in the Sprint 2 split script pending |
 | R6 | Preprocessing (scaling, encoding) is fit on training data only and applied unchanged to validation and test. | Code review by Carla. | Pending |
 | R7 | The candidates are Logistic Regression and one fixed Random Forest; the most-frequent Dummy is a reference only. Settings follow the protocol and are confirmed by Carla before training. | Config file or printed parameters, library versions. | Pending |
-| R8 | Class 1 is predicted at probability >= 0.5. The model is chosen by the highest validation F1 for class 1; an exact tie selects Logistic Regression. | Validation table and the selected model name. | Pending |
+| R8 | Class 1 is predicted at probability >= 0.5. The model is chosen by the highest validation F1 for class 1; a difference of 0.001 or less selects Logistic Regression. | Validation table and the selected model name. | Pending |
 | R9 | The selected model and the Dummy are scored once on the test set after the choice is frozen. | Single test-evaluation log. | Pending |
 | R10 | Reports contain F1, precision, recall, TP, FP, FN, TN, sample size and class counts, validation and test shown separately. | Results table. | Pending |
 | R11 | A zero denominator is reported as `0.0` and tagged as undefined (see Section 4). | Manual toy check below, then the code output. | Toy check done by hand below; code output pending |
