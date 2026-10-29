@@ -12,11 +12,11 @@ Each condition is met only when the named evidence is attached to card S1-ST-01 
 
 | ID | Observable condition | How to check | Evidence |
 |---|---|---|---|
-| R1 | The working file is `student-mat.csv`: 395 rows, 33 columns, `;` separator; the SHA-256 hash is recorded. | Audit script output on this file. | Pending (Carla's audit is being redone for this file) |
+| R1 | The working file is `student-mat.csv`: 395 rows, 33 columns, `;` separator; the SHA-256 hash is recorded. | Audit script output on this file. | Done in PR #2 (`docs/data-audit.md`): 395 rows, 33 columns, SHA-256 e47f9ee225e1ee6e69b7564e6dac7123e80b8486677fe111f351964cef5dec80 |
 | R2 | Target is `1` if `G3 < 10`, else `0`. Rows with `G3 = 0` are kept. Class counts overall and per split are recorded. | Printed counts. | Pending |
 | R3 | Model inputs are all 31 canonical features from Carla's Mathematics audit (30 demographic and school attributes plus G1). G2 and G3 are excluded. | Feature list in the pipeline code. | Pending |
 | R4 | One stratified split with seed 42 gives 276 train / 59 validation / 60 test records. Split IDs are disjoint, together cover all 395 records, and are saved to a file. | Printed sizes and an ID-overlap check. | Pending |
-| R5 | There are no exact duplicate rows. If any are found, the work stops and the team resolves them before training. | Duplicate count printed before the split. | Pending |
+| R5 | There are no exact duplicate rows. If any are found, the work stops and the team resolves them before training. | Duplicate count printed before the split. | Source audit (PR #2): 0 exact duplicates; re-check in the Sprint 2 split script pending |
 | R6 | Preprocessing (scaling, encoding) is fit on training data only and applied unchanged to validation and test. | Code review by Carla. | Pending |
 | R7 | The candidates are Logistic Regression and one fixed Random Forest; the most-frequent Dummy is a reference only. Settings follow the protocol and are confirmed by Carla before training. | Config file or printed parameters, library versions. | Pending |
 | R8 | Class 1 is predicted at probability >= 0.5. The model is chosen by the highest validation F1 for class 1; an exact tie selects Logistic Regression. | Validation table and the selected model name. | Pending |
@@ -29,7 +29,7 @@ Each condition is met only when the named evidence is attached to card S1-ST-01 
 |---|---|---|---|
 | Evaluation protocol | `docs/evaluation-protocol.md` | Madina | In review: PR #3 is open and not yet merged |
 | Requirements v1 | `docs/requirements-v1.md` | Madina | Draft; awaiting review |
-| Data audit and inference contract | AI deliverable (S1-AI-01) | Carla | In progress; being redone for `student-mat.csv` |
+| Data audit and inference contract | `docs/data-audit.md`, `ml/schemas/schema-v1.json`, `ml/contract.py` | Carla | In review: PR #2 open, not yet merged |
 | Scope-confirmation draft for the instructor | `docs/professor-scope-note.md` | Madina | Draft; not sent, no answer yet |
 | Individual sprint summary | S1-ST-SUMMARY | Madina | Not started |
 
