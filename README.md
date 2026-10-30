@@ -31,8 +31,8 @@
 Clone the repository and navigate into the directory:
 
 ```bash
-git clone https://github.com/tidalu/student-performance.git
-cd student-performance
+git clone https://github.com/Student-performance/Student_performance.git
+cd Student_performance
 ```
 
 ### 1. Install Dependencies & Setup Virtual Environment
@@ -76,7 +76,7 @@ In `.env`, configure the following variables:
 |---|---|
 | `PORT` | Local port for Express (default: `3000`) |
 | `SESSION_SECRET` | Paste the random 32-byte hex generated above |
-| `DATABASE_PATH` | Path to SQLite database file (e.g. `./data/app.sqlite` or `./data/app.db`) |
+| `DATABASE_PATH` | Path to SQLite database file (default fallback: `./data/app.sqlite`). Both the database connection (`src/db/index.js`) and session store (`server.js`) default to `./data/app.sqlite` when this variable is unset. |
 | `PYTHON_PATH` | Absolute path to the virtualenv Python interpreter (`.venv/bin/python` on Linux/macOS or `.venv\Scripts\python.exe` on Windows). If the path contains spaces, surround it with double quotes. |
 
 > [!WARNING]
