@@ -18,5 +18,3 @@ if (!rows){ throw new Error('AI member has not yet done the prediction adapter o
 })().catch(error => { console.error(error); process.exitCode = 1; });
 
 
-// TODO: run the test after Carla's prediction adapter is implemented and the ml/examples/valid_two_rows.json file is available.
-// node tests/test_prediction_adapter.js
