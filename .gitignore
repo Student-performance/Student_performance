@@ -4,5 +4,5 @@ node_modules/
 *.sqlite
 *.sqlite-wal
 *.sqlite-shm
-__pycache__/
+*__pycache__/
 *.pyc
