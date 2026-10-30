@@ -1,0 +1,12 @@
+const assert = require('node:assert/strict');
+process.env.DATABASE_PATH = ':memory:';
+const db = require('../src/db/connection');
+require('../src/db/migrate').runMigrations();
+db.run('INSERT INTO accounts(id,email,username,password_hash) VALUES(?,?,?,?)', 'a', 'a@test.edu', 'alice', 'hash');
+db.run('INSERT INTO datasets(id,account_id,filename,row_count,g1_count,g1_mean,g1_min,g1_max) VALUES(?,?,?,1,1,10,10,10)', 'd', 'a', 'test.csv');
+db.run('INSERT INTO student_rows(id,dataset_id,row_index,row_identifier,features_json,g1) VALUES(?,?,1,?,?,10)', 's', 'd', 'ROW-1', '{}');
+assert.throws(() => db.run('INSERT INTO student_rows(id,dataset_id,row_index,row_identifier,features_json,g1) VALUES(?,?,2,?,?,10)', 's2', 'd', 'ROW-1', '{}'), /UNIQUE/);
+db.run('DELETE FROM accounts WHERE id = ?', 'a');
+assert.equal(db.get('SELECT COUNT(*) AS n FROM student_rows').n, 0);
+db.close();
+console.log('Foreign keys, uniqueness and cascade verified');

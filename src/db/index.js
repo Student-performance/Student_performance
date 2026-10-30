@@ -1,0 +1,14 @@
+require('dotenv').config();
+const Database = require('better-sqlite3');
+const fs = require('node:fs');
+const path = require('node:path');
+const filename = process.env.DATABASE_PATH || path.resolve(__dirname, '../../data/app.sqlite');
+if (filename !== ':memory:') fs.mkdirSync(path.dirname(filename), { recursive: true });
+const db = new Database(filename);
+db.pragma('foreign_keys = ON');
+db.pragma('busy_timeout = 5000');
+const normalize = args => args.length === 1 && Array.isArray(args[0]) ? args[0] : args;
+db.get = (sql, ...args) => db.prepare(sql).get(...normalize(args));
+db.all = (sql, ...args) => db.prepare(sql).all(...normalize(args));
+db.run = (sql, ...args) => db.prepare(sql).run(...normalize(args));
+module.exports = db;
