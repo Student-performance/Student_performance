@@ -27,7 +27,7 @@ Each condition is met only when the named evidence is attached to card S1-ST-01 
 ## 3. Course-document inventory
 | Document | Path | Owner | Status |
 |---|---|---|---|
-| Evaluation protocol | `docs/evaluation-protocol.md` | Madina | In review: PR #3 is open and not yet merged |
+| Evaluation protocol | `docs/evaluation-protocol.md` | Madina | Merged in PR #2 |
 | Requirements v1 | `docs/requirements-v1.md` | Madina | Draft; awaiting review |
 | Data audit and inference contract | `docs/data-audit.md`, `ml/schemas/schema-v1.json`, `ml/contract.py` | Carla | In review: PR #2 open, not yet merged |
 | Scope-confirmation draft for the instructor | `docs/professor-scope-note.md` | Madina | Draft; not sent, no answer yet |
