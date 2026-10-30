@@ -21,7 +21,9 @@
     "express": "^4.22.3",
     "express-ejs-layouts": "2.5.1",
     "express-session": "^1.19.0",
-    "multer": "^2.5.0"
+    "libxmljs": "^1.0.11",
+    "multer": "^2.5.0",
+    "node-gyp": "^13.1.0"
   },
   "allowScripts": {
     "better-sqlite3@12.4.1": true,
