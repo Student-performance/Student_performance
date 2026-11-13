@@ -40,6 +40,6 @@ Class counts: 40 not-at-risk (class 0), 19 at-risk (class 1), N=59. Accuracy can
 - Reviewer decision/date: [pending until performed]
 
 # S2-ST-01 — Step 7: Publish
-- Commit SHA: 78554ef0ed1dc430d5746c97270cd0fbd5e3a24a
+- Commit SHA: 85b1194a5a929c3a303ac792aeb73f1109fcd8d6
 - PR: (https://github.com/Student-performance/Student_performance/pull/12)
 - Reviewer: Carla Susana López Puma — review requested [13.11.2026]
