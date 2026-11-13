@@ -21,4 +21,5 @@
   - `python ml\check_sprint2_ml.py --reproduce` → exit 0: "Two-pass validation reproducibility passed: split IDs, probabilities and metrics match. No held-out model evaluation performed."
   - Versions printed by both runs: Python 3.12.10; numpy 1.26.2; pandas 2.1.4; scikit-learn 1.3.2; joblib 1.3.2.
 - Measured values / limitations: validation only (N=59, 19 positives), no held-out model evaluation. With so few positives, one or two students change F1 noticeably; the LR result is not a model selection, which stays open until the Sprint 3 random forest comparison. Retrospective experiment; timing of the 30 non-G1 fields is unverified.
+- Reproducibility scope: `--reproduce` passed on Windows (Python 3.12.10). Regenerating on macOS/Linux writes LF instead of CRLF CSV line endings and changes LR probabilities only at ~1e-14, so the exact-equality check can fail there even though IDs, predictions and metrics are identical. The structural check (without `--reproduce`) passes on Linux against the committed files.
 - Reviewer decision/date: pending until performed (reviewer: ST, Madina Khaimuldina).
