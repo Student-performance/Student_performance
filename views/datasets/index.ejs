@@ -1,0 +1,48 @@
+<div class="card-panel">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+    <h2>My Uploaded Datasets</h2>
+    <a href="/datasets/upload" class="button" style="text-decoration:none; line-height:42px;">Upload New CSV</a>
+  </div>
+
+  <% if (datasets.length === 0) { %>
+    <p>No datasets uploaded yet.</p>
+  <% } else { %>
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Filename</th>
+            <th>Rows</th>
+            <th>G1 Mean</th>
+            <th>G1 Range</th>
+            <th>Uploaded</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% datasets.forEach(d => { %>
+            <tr>
+              <td><b><%= d.filename %></b></td>
+              <td><%= d.row_count %></td>
+              <td><%= d.g1_mean.toFixed(2) %>/20</td>
+              <td><%= d.g1_min %> — <%= d.g1_max %></td>
+              <td><%= new Date(d.created_at).toLocaleDateString() %></td>
+              <td><a href="/datasets/<%= d.id %>" class="button-small">View Details</a></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% } %>
+</div>
+
+<%- include("../partials/pagination", { pagination }) %>
+
+<h2>Recent runs</h2>
+<ul>
+  <% recentRuns.forEach(run => { %>
+    <li>
+      <a href="/runs/<%= run.id %>"><%= run.filename %></a>
+    </li>
+  <% }) %>
+</ul>

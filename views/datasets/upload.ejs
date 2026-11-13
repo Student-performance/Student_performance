@@ -1,0 +1,38 @@
+<div class="card-panel" style="max-width: 600px; margin: 30px auto;">
+  <h2>Upload Student Performance CSV</h2>
+
+  <p>
+    Accepted columns: <code><%= featureNames.join(", ") %></code>.
+    Optional raw G2/G3 are discarded; optional row_identifier is a synthetic label.
+    UTF-8, comma or semicolon CSV, 1–500 records, at most 1 MiB.
+  </p>
+
+  <p>
+    Upload Cortez &amp; Silva (2008) student math dataset
+    (maximum 500 rows, 1 MiB).
+  </p>
+
+  <% if (typeof error !== 'undefined' && error) { %>
+    <div class="alert error" role="alert" tabindex="-1"
+         id="upload-errors" style="white-space:pre-wrap"><%= error %></div>
+  <% } %>
+
+  <form action="/datasets/upload" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+    <div class="form-group" style="margin: 20px 0;">
+      <label for="dataset">Select CSV File</label>
+      <input type="file" id="dataset" name="dataset"
+             accept=".csv" required class="form-input"
+             style="padding: 8px;">
+    </div>
+
+    <button type="submit" class="button" style="width: 100%;">
+      Upload &amp; Validate CSV
+    </button>
+  </form>
+
+  <p>Please reselect the file after a rejected submission. No rows are saved on an error.</p>
+
+  <script src="/js/upload-form.js" defer></script>
+</div>
