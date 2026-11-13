@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof title !== 'undefined' ? title + ' | Student Performance' : 'Student Performance' %></title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a href="/" class="brand"><b>student</b>performance</a>
+    <nav class="nav-links">
+      <% if (locals.user) { %>
+        <a href="/">Dashboard</a>
+        <a href="/datasets/upload">Upload CSV</a>
+        <a href="/evaluation">Evaluation</a>
+        <a href="/help">Help</a>
+        <form action="/logout" method="POST" style="display:inline">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <button type="submit" class="btn-link">Sign out (<%= user.username %>)</button>
+        </form>
+      <% } else { %>
+        <a href="/login">Sign In</a>
+        <a href="/register">Register</a>
+      <% } %>
+    </nav>
+  </header>
+  <div class="flash-messages" aria-live="polite">
+    <div id="success-message" class="flash-success" role="status"></div>
+    <div id="error-message" class="flash-error" role="alert"></div>
+  </div>
+  
+  <main class="page-main"><%- body %></main>
+  <footer class="site-footer">
+    <p>Student Performance — Educational Course Demonstration</p>
+  </footer>
+</body>
+</html>

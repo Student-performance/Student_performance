@@ -1,0 +1,62 @@
+<div class="card-panel">
+  <h2>Dataset: <%= dataset.filename %></h2>
+
+  <div class="metric-grid grid-4">
+    <div class="stat-tile">
+      <span class="stat-label">Students</span>
+      <strong><%= dataset.row_count %></strong>
+    </div>
+
+    <div class="stat-tile">
+      <span class="stat-label">G1 Mean</span>
+      <strong><%= dataset.g1_mean.toFixed(2) %>/20</strong>
+    </div>
+
+    <div class="stat-tile">
+      <span class="stat-label">G1 Minimum</span>
+      <strong><%= dataset.g1_min %>/20</strong>
+    </div>
+
+    <div class="stat-tile">
+      <span class="stat-label">G1 Maximum</span>
+      <strong><%= dataset.g1_max %>/20</strong>
+    </div>
+  </div>
+
+  <div style="margin: 24px 0;">
+    <% if (typeof predictionAvailable !== 'undefined' && predictionAvailable) { %>
+      <form method="POST" action="/datasets/<%= dataset.id %>/predict">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <button type="submit" class="button">Run Risk Prediction</button>
+      </form>
+    <% } else { %>
+      <p>Prediction is unavailable until the frozen model and Sprint 3 routes are integrated.</p>
+    <% } %>
+  </div>
+
+  <h3>Student Records (Page <%= pagination.page %> of <%= pagination.totalPages %>)</h3>
+
+  <div class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Index</th>
+          <th>Identifier</th>
+          <th>G1 Grade</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% rows.forEach(r => { %>
+          <tr>
+            <td><%= r.row_index %></td>
+            <td><code><%= r.row_identifier %></code></td>
+            <td><%= r.g1 %>/20</td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%- include("../partials/pagination", { pagination }) %>
