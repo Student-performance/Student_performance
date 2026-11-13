@@ -428,3 +428,44 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+
+
+
+/* Dataset statistics and action buttons */
+.stat-tile {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #666;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.stat-tile strong {
+  font-size: 24px;
+  color: var(--primary);
+}
+
+.button-small {
+  padding: 6px 12px;
+  background: var(--primary);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .metric-grid.grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
