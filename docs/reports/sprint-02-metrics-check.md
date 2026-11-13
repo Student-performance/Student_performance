@@ -38,3 +38,8 @@ Class counts: 40 not-at-risk (class 0), 19 at-risk (class 1), N=59. Accuracy can
 - Command and exit: see Steps 1–5 above for individual commands and exit codes
 - Measured values / limitations: Independent audit (Step 4) confirms LR and Dummy validation metrics exactly match Carla's reported figures (abs_tol=0.000051), split IDs are disjoint and match the manifest, and labels in val.csv agree with true_label in the predictions file. This is validation only (N=59, 19 positives) — no held-out/test evaluation was performed, and no final model is selected: the Random Forest comparison and final Dummy/LR/RF selection remain open until Sprint 3. Remaining issue: Step 3 (G1 service test) could not be executed — dataset.js eagerly requires ../db/connection, and better-sqlite3 has no prebuilt binary for Node v26.13.0 with native build tools unavailable on this machine; the service's logic was verified by code review instead (calculateG1Stats correctly handles both {g1} and {G1} inputs and matches the Step 2 oracle). This blocker should be resolved before Sprint 3 if row-level service testing becomes required there.
 - Reviewer decision/date: [pending until performed]
+
+# S2-ST-01 — Step 7: Publish
+- Commit SHA: 78554ef0ed1dc430d5746c97270cd0fbd5e3a24a
+- PR: (https://github.com/Student-performance/Student_performance/pull/12)
+- Reviewer: Carla Susana López Puma — review requested [13.11.2026]
