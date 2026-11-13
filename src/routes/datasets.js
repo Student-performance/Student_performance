@@ -36,11 +36,12 @@ router.post('/upload', upload.single('dataset'), csrfProtection, async (req, res
         })
         res.redirect(`/datasets/${dataset.id}`);
     } catch (error) {
-        if (error.status === 400 || error.status === 413) {
-            return res.status(error.status).render('datasets/upload', {
+        const status = error.status || 400;
+        if (status === 400 || status === 413) {
+            return res.status(status).render('datasets/upload', {
                 title: 'Upload CSV',
                 error: error.message,
-                csrfToken: req.csrfToken()
+                csrfToken: (req.session && req.session.csrfToken) || req.csrfToken()
             });
         }
 
