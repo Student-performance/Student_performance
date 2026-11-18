@@ -1,39 +1,43 @@
-/*
-TODO (W1 VERIFICATION):
-Confirm registration route, expected form field names,
-password requirements, and CSRF handling with W1.
-Update this template if necessary after verification.
-*/
-
-<div class="card-panel" style="max-width: 420px; margin: 40px auto;">
-  <h2>Create Account</h2>
-  <% if (typeof error !== 'undefined' && error) { %>
-    <div class="alert error"><%= error %></div>
-  <% } %>
-
-  <form action="/register" method="POST">
-    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-
-    <div class="form-group" style="margin-bottom:16px;">
-      <label for="username">Username</label>
-      <input class="form-input" id="username" name="username" pattern="[a-z0-9_-]{3,40}" required>
-
-      <label for="email">Email Address</label>
-      <input class="form-input" type="email" id="email" name="email" required>
+<div class="auth-wrapper">
+  <div class="card-panel auth-card">
+    <div class="auth-header">
+      <span class="auth-badge">Get Started</span>
+      <h2>Create Account</h2>
+      <p class="panel-subtitle">Register to upload student datasets and run risk prediction analyses.</p>
     </div>
 
-    <div class="form-group" style="margin-bottom:16px;">
-      <label for="password">Password (min 8 characters)</label>
-      <input class="form-input" type="password" id="password" name="password" minlength="8" required>
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div class="alert error" role="alert"><%= error %></div>
+    <% } %>
+
+    <form action="/register" method="POST">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input class="form-input" id="username" name="username" pattern="[a-z0-9_-]{3,40}" placeholder="e.g. johndoe" required autofocus>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input class="form-input" type="email" id="email" name="email" placeholder="name@school.edu" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password (min 8 characters)</label>
+        <input class="form-input" type="password" id="password" name="password" minlength="8" placeholder="••••••••" required>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input class="form-input" type="password" id="confirmPassword" name="confirmPassword" minlength="8" placeholder="••••••••" required>
+      </div>
+
+      <button type="submit" class="button" style="width:100%; margin-top:8px;">Register</button>
+    </form>
+
+    <div class="auth-footer">
+      <p>Already have an account? <a href="/login" class="link-primary">Sign In</a></p>
     </div>
-
-    <div class="form-group" style="margin-bottom:20px;">
-      <label for="confirmPassword">Confirm Password</label>
-      <input class="form-input" type="password" id="confirmPassword" name="confirmPassword" minlength="8" required>
-    </div>
-
-    <button type="submit" class="button" style="width:100%;">Register</button>
-  </form>
-
-  <p style="margin-top:16px; font-size:14px;">Already have an account? <a href="/login">Sign In</a></p>
+  </div>
 </div>

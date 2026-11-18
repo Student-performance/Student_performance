@@ -1,38 +1,96 @@
-<div class="card-panel" style="max-width: 600px; margin: 30px auto;">
-  <h2>Upload Student Performance CSV</h2>
+<div class="card-panel upload-card" style="max-width: 680px; margin: 30px auto;">
+  <div class="panel-header">
+    <div>
+      <h2>Upload Student Performance CSV</h2>
+      <p class="panel-subtitle">Upload Cortez &amp; Silva (2008) student math dataset for automated validation and risk scoring.</p>
+    </div>
+  </div>
 
-  <p>
-    Accepted columns: <code><%= featureNames.join(", ") %></code>.
-    Optional raw G2/G3 are discarded; optional row_identifier is a synthetic label.
-    UTF-8, comma or semicolon CSV, 1–500 records, at most 1 MiB.
-  </p>
-
-  <p>
-    Upload Cortez &amp; Silva (2008) student math dataset
-    (maximum 500 rows, 1 MiB).
-  </p>
-
-  <% if (typeof error !== 'undefined' && error) { %>
-    <div class="alert error" role="alert" tabindex="-1"
-         id="upload-errors" style="white-space:pre-wrap"><%= error %></div>
-  <% } %>
-
-  <form action="/datasets/upload" method="POST" enctype="multipart/form-data">
-    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-
-    <div class="form-group" style="margin: 20px 0;">
-      <label for="dataset">Select CSV File</label>
-      <input type="file" id="dataset" name="dataset"
-             accept=".csv" required class="form-input"
-             style="padding: 8px;">
+  <!-- Clean Visual Specification Box -->
+  <div class="spec-card">
+    <div class="spec-header">
+      <div class="spec-title">
+        <span class="spec-icon">📋</span>
+        <strong>Dataset Ingestion Requirements</strong>
+      </div>
+      <div class="spec-badges">
+        <span class="spec-pill">.CSV Only</span>
+        <span class="spec-pill">UTF-8</span>
+        <span class="spec-pill">; or , Delimited</span>
+        <span class="spec-pill">Max 500 Rows / 2 MB</span>
+      </div>
     </div>
 
-    <button type="submit" class="button" style="width: 100%;">
+    <ul class="spec-rules">
+      <li><strong>Column Order:</strong> <span class="rule-highlight">Flexible</span> &mdash; columns are matched strictly by header name, not by column position.</li>
+      <li><strong>Required Features:</strong> All 31 canonical attributes must be present and valid for every row. Missing values will reject the upload.</li>
+      <li><strong>Target Leakage Guard:</strong> Raw <code>G2</code> and <code>G3</code> columns are safely stripped if present to avoid leaking target labels to the model.</li>
+      <li><strong>Atomic Import:</strong> If any single row fails validation, the entire file is rejected and 0 rows are saved (all-or-nothing rollback).</li>
+    </ul>
+
+    <!-- Collapsible 31 Feature Reference -->
+    <details class="spec-details">
+      <summary>View all 31 accepted column names (by category)</summary>
+      <div class="spec-columns-grid">
+        <div class="spec-col-group">
+          <em>Student Demographics:</em>
+          <code>school</code>, <code>sex</code>, <code>age</code>, <code>address</code>, <code>famsize</code>, <code>Pstatus</code>
+        </div>
+        <div class="spec-col-group">
+          <em>Family &amp; Background:</em>
+          <code>Medu</code>, <code>Fedu</code>, <code>Mjob</code>, <code>Fjob</code>, <code>reason</code>, <code>guardian</code>
+        </div>
+        <div class="spec-col-group">
+          <em>Academic &amp; Support:</em>
+          <code>traveltime</code>, <code>studytime</code>, <code>failures</code>, <code>schoolsup</code>, <code>famsup</code>, <code>paid</code>, <code>activities</code>, <code>nursery</code>, <code>higher</code>, <code>absences</code>, <code>G1</code>
+        </div>
+        <div class="spec-col-group">
+          <em>Personal &amp; Lifestyle:</em>
+          <code>internet</code>, <code>romantic</code>, <code>famrel</code>, <code>freetime</code>, <code>goout</code>, <code>Dalc</code>, <code>Walc</code>, <code>health</code>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <% if (typeof error !== 'undefined' && error) { %>
+    <div class="alert error" role="alert" tabindex="-1" id="upload-errors">
+      <div class="error-header">
+        <strong>Validation Failed</strong>
+        <span class="error-subtitle">The uploaded CSV could not be processed due to the following errors:</span>
+      </div>
+      <div class="error-scroll-box"><%= error %></div>
+      <p class="error-footer-hint">Please correct the data errors above and reselect the file. Zero rows were saved.</p>
+    </div>
+  <% } %>
+
+  <form action="/datasets/upload" method="POST" enctype="multipart/form-data" class="upload-form">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+    <div class="form-group" style="margin: 22px 0;">
+      <label for="dataset" class="file-drop-area">
+        <span class="file-drop-icon">📁</span>
+        <span class="file-drop-prompt">Choose CSV file or drag and drop here</span>
+        <span class="file-drop-sub">Supported format: UTF-8 encoded .csv up to 2MB</span>
+        <input type="file" id="dataset" name="dataset" accept=".csv" required class="file-drop-input">
+      </label>
+      <div id="file-chosen-name" class="file-chosen-name"></div>
+    </div>
+
+    <button type="submit" class="button" style="width: 100%; font-size: 15px; padding: 12px 20px;">
       Upload &amp; Validate CSV
     </button>
   </form>
 
-  <p>Please reselect the file after a rejected submission. No rows are saved on an error.</p>
-
-  <script src="/js/upload-form.js" defer></script>
+  <script>
+    const fileInput = document.getElementById('dataset');
+    const nameDisplay = document.getElementById('file-chosen-name');
+    if (fileInput && nameDisplay) {
+      fileInput.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+          nameDisplay.textContent = 'Selected: ' + this.files[0].name + ' (' + (this.files[0].size / 1024).toFixed(1) + ' KB)';
+          nameDisplay.style.display = 'block';
+        }
+      });
+    }
+  </script>
 </div>

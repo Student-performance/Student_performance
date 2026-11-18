@@ -1,48 +1,104 @@
-<div class="card-panel">
-  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-    <h2>My Uploaded Datasets</h2>
-    <a href="/datasets/upload" class="button" style="text-decoration:none; line-height:42px;">Upload New CSV</a>
+<div class="dashboard-grid">
+  <!-- Main Column: Datasets -->
+  <div class="dashboard-main">
+    <div class="card-panel">
+      <div class="panel-header">
+        <div>
+          <h2>My Uploaded Datasets</h2>
+          <p class="panel-subtitle">Manage validated student cohorts and inspect baseline statistics.</p>
+        </div>
+        <a href="/datasets/upload" class="button">Upload New CSV</a>
+      </div>
+
+      <% if (datasets.length === 0) { %>
+        <div class="empty-state">
+          <span class="empty-icon">📊</span>
+          <p class="empty-title">No datasets uploaded yet</p>
+          <p class="empty-sub">Upload your first <code>student-mat.csv</code> to view G1 distributions and run risk predictions.</p>
+          <a href="/datasets/upload" class="button-small" style="margin-top: 12px;">Upload CSV</a>
+        </div>
+      <% } else { %>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Dataset</th>
+                <th>Rows</th>
+                <th>G1 Mean</th>
+                <th>G1 Range</th>
+                <th>Uploaded</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% datasets.forEach(d => { %>
+                <tr>
+                  <td>
+                    <div class="dataset-name-cell">
+                      <b><%= d.filename %></b>
+                      <span class="badge-id" title="Dataset ID">#<%= d.id.slice(0, 8) %></span>
+                    </div>
+                  </td>
+                  <td><%= d.row_count %></td>
+                  <td><b><%= d.g1_mean.toFixed(2) %>/20</b></td>
+                  <td><span class="badge-range"><%= d.g1_min %> &mdash; <%= d.g1_max %></span></td>
+                  <td>
+                    <div class="upload-time-cell">
+                      <span class="upload-date"><%= new Date(d.created_at).toLocaleDateString() %></span>
+                      <span class="upload-time"><%= new Date(d.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) %></span>
+                    </div>
+                  </td>
+                  <td>
+                    <a href="/datasets/<%= d.id %>" class="button-small">View Details</a>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+
+        <%- include("../partials/pagination", { pagination }) %>
+      <% } %>
+    </div>
   </div>
 
-  <% if (datasets.length === 0) { %>
-    <p>No datasets uploaded yet.</p>
-  <% } else { %>
-    <div class="table-container">
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Filename</th>
-            <th>Rows</th>
-            <th>G1 Mean</th>
-            <th>G1 Range</th>
-            <th>Uploaded</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% datasets.forEach(d => { %>
-            <tr>
-              <td><b><%= d.filename %></b></td>
-              <td><%= d.row_count %></td>
-              <td><%= d.g1_mean.toFixed(2) %>/20</td>
-              <td><%= d.g1_min %> — <%= d.g1_max %></td>
-              <td><%= new Date(d.created_at).toLocaleDateString() %></td>
-              <td><a href="/datasets/<%= d.id %>" class="button-small">View Details</a></td>
-            </tr>
+  <!-- Sidebar Column: Persistent Recent Prediction Runs -->
+  <div class="dashboard-sidebar">
+    <div class="card-panel sidebar-card">
+      <div class="panel-header-compact">
+        <h3>Recent Prediction Runs</h3>
+        <span class="badge-count"><%= (typeof recentRuns !== 'undefined' && recentRuns) ? recentRuns.length : 0 %></span>
+      </div>
+
+      <% if (!recentRuns || recentRuns.length === 0) { %>
+        <div class="empty-runs">
+          <span class="runs-icon">🎯</span>
+          <p class="runs-empty-title">No predictions yet</p>
+          <p class="runs-empty-sub">Sprint 3 connects the frozen ML model. Once active, select any dataset on the left to trigger inference.</p>
+        </div>
+      <% } else { %>
+        <ul class="runs-list">
+          <% recentRuns.forEach(run => { %>
+            <li class="run-item">
+              <div class="run-info">
+                <a href="/runs/<%= run.id %>" class="run-title">Run #<%= run.id.slice(0, 8) %></a>
+                <span class="run-dataset"><%= run.filename %></span>
+                <span class="run-date">
+                  <%= new Date(run.created_at).toLocaleDateString() %>
+                  <%= new Date(run.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) %>
+                </span>
+              </div>
+              <div class="run-badge-wrap">
+                <% if (typeof run.at_risk_count !== 'undefined') { %>
+                  <span class="badge-risk"><%= run.at_risk_count %> / <%= run.total_records %> At-Risk</span>
+                <% } else { %>
+                  <span class="badge-completed">Completed</span>
+                <% } %>
+              </div>
+            </li>
           <% }) %>
-        </tbody>
-      </table>
+        </ul>
+      <% } %>
     </div>
-  <% } %>
+  </div>
 </div>
-
-<%- include("../partials/pagination", { pagination }) %>
-
-<h2>Recent runs</h2>
-<ul>
-  <% recentRuns.forEach(run => { %>
-    <li>
-      <a href="/runs/<%= run.id %>"><%= run.filename %></a>
-    </li>
-  <% }) %>
-</ul>
