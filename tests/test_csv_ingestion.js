@@ -33,3 +33,19 @@ for (const rejectedHeader of ['constructor', 'toString', '__proto__']) {
   assert.equal(validateStudentRows(parseCsv(input).rows).isValid, false, 'CSV '+rejectedHeader);
 }
 console.log('Prototype-name CSV columns correctly rejected');
+
+// Column order is irrelevant (matched by header name) and all 31 features are mandatory.
+{
+  const keys = Object.keys(fixture[0]).filter(key => !['row_identifier', 'student_row_id', 'row_id'].includes(key));
+  const toCsv = cols => cols.join(',') + '\n' + cols.map(key => fixture[0][key]).join(',');
+  const inOrder = validateStudentRows(parseCsv(Buffer.from(toCsv(keys))).rows);
+  const reversed = validateStudentRows(parseCsv(Buffer.from(toCsv([...keys].reverse()))).rows);
+  assert.equal(inOrder.isValid, true);
+  assert.equal(reversed.isValid, true);
+  assert.deepEqual(reversed.validRows[0], inOrder.validRows[0]);
+  for (const missing of keys) {
+    const result = validateStudentRows(parseCsv(Buffer.from(toCsv(keys.filter(key => key !== missing)))).rows);
+    assert.equal(result.isValid, false, 'missing ' + missing);
+  }
+}
+console.log('Flexible column order and mandatory 31 features verified');

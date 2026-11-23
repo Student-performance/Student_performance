@@ -4,3 +4,8 @@ Filename must end .csv, UTF-8 buffer <=1 MiB, comma/semicolon RFC-4180 format, 1
 Validate before writes; maximum 50 row/column error messages. One same-connection SQLite transaction inserts datasets and student_rows; failure rolls back both. Keep only 31 validated features in features_json; raw bytes and G2/G3 are not retained. Repeated uploads intentionally create new datasets.
 calculateG1Stats returns count/mean/min/max with mean rounded to two decimals for stored/displayed statistics. The [10,15,5,20,0] fixture gives count=5, mean=10, min=0, max=20.
 Synthetic fixture: data/examples/student_two_rows.csv. Raw student-mat.csv is semicolon-delimited and contains 33 source columns; source/training files remain separate from uploaded inference data.
+
+## Column order and mandatory features (Sprint 3)
+- Column order is flexible: columns are matched by header name, so the same file with its columns in any order gives the same result. Header names are case-sensitive and must match the canonical names exactly.
+- All 31 canonical features are strictly mandatory. A missing column or an empty value rejects the file (Validate before writes); nothing is saved.
+- Unknown columns are rejected. The only exceptions are G2/G3, which are accepted and discarded, and the optional synthetic labels row_identifier/student_row_id.
