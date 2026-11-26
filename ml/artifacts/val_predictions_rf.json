@@ -1,0 +1,356 @@
+[
+  {
+    "row_id": "row_259",
+    "true_label": 0,
+    "rf_prob": 0.3046080312056956,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_287",
+    "true_label": 0,
+    "rf_prob": 0.21820501609168041,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_086",
+    "true_label": 1,
+    "rf_prob": 0.6627897124896762,
+    "rf_pred": 1
+  },
+  {
+    "row_id": "row_197",
+    "true_label": 0,
+    "rf_prob": 0.1459504325299507,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_174",
+    "true_label": 1,
+    "rf_prob": 0.7448032111483651,
+    "rf_pred": 1
+  },
+  {
+    "row_id": "row_071",
+    "true_label": 0,
+    "rf_prob": 0.2608513831888038,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_045",
+    "true_label": 1,
+    "rf_prob": 0.5725656053271947,
+    "rf_pred": 1
+  },
+  {
+    "row_id": "row_194",
+    "true_label": 0,
+    "rf_prob": 0.6014943709189623,
+    "rf_pred": 1
+  },
+  {
+    "row_id": "row_244",
+    "true_label": 0,
+    "rf_prob": 0.17662971471984257,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_207",
+    "true_label": 1,
+    "rf_prob": 0.6234592030503933,
+    "rf_pred": 1
+  },
+  {
+    "row_id": "row_328",
+    "true_label": 0,
+    "rf_prob": 0.3991877898080823,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_364",
+    "true_label": 0,
+    "rf_prob": 0.20014969276875078,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_361",
+    "true_label": 0,
+    "rf_prob": 0.35025700462708725,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_354",
+    "true_label": 1,
+    "rf_prob": 0.7332204254348518,
+    "rf_pred": 1
+  },
+  {
+    "row_id": "row_100",
+    "true_label": 1,
+    "rf_prob": 0.6085130017809324,
+    "rf_pred": 1
+  },
+  {
+    "row_id": "row_198",
+    "true_label": 0,
+    "rf_prob": 0.5934956883452407,
+    "rf_pred": 1
+  },
+  {
+    "row_id": "row_129",
+    "true_label": 1,
+    "rf_prob": 0.7317624041131481,
+    "rf_pred": 1
+  },
+  {
+    "row_id": "row_062",
+    "true_label": 0,
+    "rf_prob": 0.5984993339092848,
+    "rf_pred": 1
+  },
+  {
+    "row_id": "row_286",
+    "true_label": 0,
+    "rf_prob": 0.2391664860720895,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_043",
+    "true_label": 0,
+    "rf_prob": 0.19658447908333848,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_377",
+    "true_label": 0,
+    "rf_prob": 0.4272789184018119,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_120",
+    "true_label": 0,
+    "rf_prob": 0.19723276332194442,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_168",
+    "true_label": 0,
+    "rf_prob": 0.2283429135587347,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_029",
+    "true_label": 0,
+    "rf_prob": 0.2943998366765633,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_370",
+    "true_label": 0,
+    "rf_prob": 0.3088758320704184,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_075",
+    "true_label": 0,
+    "rf_prob": 0.4459633837982203,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_227",
+    "true_label": 0,
+    "rf_prob": 0.2619714812598641,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_023",
+    "true_label": 0,
+    "rf_prob": 0.17393837119200597,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_028",
+    "true_label": 0,
+    "rf_prob": 0.2082123082731009,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_004",
+    "true_label": 0,
+    "rf_prob": 0.23294236170553925,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_344",
+    "true_label": 1,
+    "rf_prob": 0.6711879659304332,
+    "rf_pred": 1
+  },
+  {
+    "row_id": "row_324",
+    "true_label": 0,
+    "rf_prob": 0.2948711664562196,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_137",
+    "true_label": 1,
+    "rf_prob": 0.4570365371292847,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_214",
+    "true_label": 1,
+    "rf_prob": 0.7183965530018692,
+    "rf_pred": 1
+  },
+  {
+    "row_id": "row_109",
+    "true_label": 0,
+    "rf_prob": 0.46890729803368314,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_135",
+    "true_label": 1,
+    "rf_prob": 0.5096130066917223,
+    "rf_pred": 1
+  },
+  {
+    "row_id": "row_144",
+    "true_label": 0,
+    "rf_prob": 0.2747070545600904,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_136",
+    "true_label": 1,
+    "rf_prob": 0.26506682785253427,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_381",
+    "true_label": 0,
+    "rf_prob": 0.24598265499547847,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_013",
+    "true_label": 0,
+    "rf_prob": 0.17411347044422787,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_348",
+    "true_label": 1,
+    "rf_prob": 0.5255709257808188,
+    "rf_pred": 1
+  },
+  {
+    "row_id": "row_184",
+    "true_label": 1,
+    "rf_prob": 0.5729485529407774,
+    "rf_pred": 1
+  },
+  {
+    "row_id": "row_285",
+    "true_label": 0,
+    "rf_prob": 0.49555862302504883,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_012",
+    "true_label": 0,
+    "rf_prob": 0.40696650513791005,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_353",
+    "true_label": 1,
+    "rf_prob": 0.639771043527382,
+    "rf_pred": 1
+  },
+  {
+    "row_id": "row_093",
+    "true_label": 1,
+    "rf_prob": 0.5372567257667851,
+    "rf_pred": 1
+  },
+  {
+    "row_id": "row_161",
+    "true_label": 1,
+    "rf_prob": 0.709771131747144,
+    "rf_pred": 1
+  },
+  {
+    "row_id": "row_394",
+    "true_label": 0,
+    "rf_prob": 0.26075091236291714,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_266",
+    "true_label": 0,
+    "rf_prob": 0.2802276394478993,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_347",
+    "true_label": 0,
+    "rf_prob": 0.30679765128795883,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_373",
+    "true_label": 0,
+    "rf_prob": 0.2701314170300792,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_334",
+    "true_label": 1,
+    "rf_prob": 0.6361516798294751,
+    "rf_pred": 1
+  },
+  {
+    "row_id": "row_250",
+    "true_label": 0,
+    "rf_prob": 0.21512147760984082,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_359",
+    "true_label": 0,
+    "rf_prob": 0.5376656764267272,
+    "rf_pred": 1
+  },
+  {
+    "row_id": "row_236",
+    "true_label": 0,
+    "rf_prob": 0.24741406641350566,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_018",
+    "true_label": 0,
+    "rf_prob": 0.4904896793189824,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_326",
+    "true_label": 0,
+    "rf_prob": 0.4580776102840374,
+    "rf_pred": 0
+  },
+  {
+    "row_id": "row_128",
+    "true_label": 1,
+    "rf_prob": 0.6899929616329282,
+    "rf_pred": 1
+  },
+  {
+    "row_id": "row_180",
+    "true_label": 0,
+    "rf_prob": 0.45129558845004636,
+    "rf_pred": 0
+  }
+]

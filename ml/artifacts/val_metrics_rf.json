@@ -1,0 +1,16 @@
+{
+  "model": "RandomForestClassifier",
+  "val_n": 59,
+  "threshold": 0.5,
+  "confusion_matrix": {
+    "tp": 17,
+    "fp": 4,
+    "fn": 2,
+    "tn": 36
+  },
+  "accuracy": 0.8983,
+  "precision": 0.8095,
+  "recall": 0.8947,
+  "f1": 0.85,
+  "undefined_denominators": []
+}
