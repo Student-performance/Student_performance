@@ -54,8 +54,8 @@ router.get('/', (req, res) => {
     const total = db.get('SELECT COUNT(*) AS n FROM datasets WHERE account_id = ?', accountId).n;
     const totalPages = Math.max(1, Math.ceil(total / 25));
     const page = Math.min(totalPages, Math.max(1, Number.parseInt(req.query.page, 10) || 1));
-    const datasets = db.all('SELECT * FROM datasets WHERE account_id = ? ORDER BY created_at DESC, id LIMIT 25 OFFSET ?', accountId, (page - 1) * 25);
-    const recentRuns = db.all('SELECT runs.*, datasets.filename FROM runs JOIN datasets ON datasets.id = runs.dataset_id WHERE runs.account_id = ? ORDER BY runs.created_at DESC, runs.id LIMIT 10', accountId);
+    const datasets = db.all('SELECT * FROM datasets WHERE account_id = ? ORDER BY created_at DESC, id DESC LIMIT 25 OFFSET ?', accountId, (page - 1) * 25);
+    const recentRuns = db.all('SELECT runs.*, datasets.filename FROM runs JOIN datasets ON datasets.id = runs.dataset_id WHERE runs.account_id = ? ORDER BY runs.created_at DESC, runs.id DESC LIMIT 10', accountId);
     res.render('datasets/index', {
         title: 'My Datasets',
         datasets,
