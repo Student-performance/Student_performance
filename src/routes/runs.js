@@ -29,7 +29,7 @@ router.get('/runs/:id', ensureAuthenticated, (req, res, next) => {
         const totalPages = Math.max(1, Math.ceil(run.total_records / 25));
         const page = Math.min(totalPages, Math.max(1, Number.parseInt(req.query.page, 10) || 1));
         const results = db.all('SELECT prediction_results.*, student_rows.row_identifier, student_rows.g1 FROM prediction_results JOIN student_rows ON student_rows.id = prediction_results.student_row_id WHERE run_id = ? ORDER BY student_rows.row_index LIMIT 25 OFFSET ?', run.id, (page - 1) * 25);
-        res.render('runs/show', { title: 'Prediction results', run, results, dataset: { id: run.dataset_id, filename: run.filename }, pagination: { page, totalPages } });
+        res.render('runs/show', { title: 'Prediction results', run, results, rows: results, dataset: { id: run.dataset_id, filename: run.filename }, pagination: { page, totalPages } });
     } catch (error) { next(error); }
 });
 module.exports = router;

@@ -1,4 +1,14 @@
 
+<%
+  function formatWarsaw(val) {
+    if (!val) return '';
+    let s = String(val).trim();
+    if (!s.endsWith('Z') && !s.includes('+')) s = s.replace(' ', 'T') + 'Z';
+    const dt = new Date(s);
+    return dt.toLocaleString('en-GB', { timeZone: 'Europe/Warsaw' });
+  }
+  const records = (typeof rows !== 'undefined' && rows) ? rows : ((typeof results !== 'undefined' && results) ? results : []);
+%>
 <div class="card-panel">
   <h2>Saved Prediction Run</h2>
 
@@ -12,7 +22,7 @@
 
     <div class="stat-tile">
       <span class="stat-label">Timestamp</span>
-      <strong><%= run.created_at %></strong>
+      <strong><%= formatWarsaw(run.created_at) %></strong>
     </div>
 
     <div class="stat-tile">
@@ -53,8 +63,8 @@
       </thead>
 
       <tbody>
-        <% if (rows && rows.length > 0) { %>
-          <% rows.forEach(r => { %>
+        <% if (records && records.length > 0) { %>
+          <% records.forEach(r => { %>
             <tr>
               <td><code><%= r.row_identifier %></code></td>
               <td><%= Number(r.risk_score).toFixed(2) %></td>
