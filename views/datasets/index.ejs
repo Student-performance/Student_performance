@@ -1,3 +1,17 @@
+<%
+  function formatWarsaw(val) {
+    if (!val) return { date: '', time: '' };
+    let s = String(val).trim();
+    if (!s.endsWith('Z') && !s.includes('+')) {
+      s = s.replace(' ', 'T') + 'Z';
+    }
+    const dt = new Date(s);
+    return {
+      date: dt.toLocaleDateString('en-CA', { timeZone: 'Europe/Warsaw' }),
+      time: dt.toLocaleTimeString('en-GB', { timeZone: 'Europe/Warsaw', hour: '2-digit', minute: '2-digit' })
+    };
+  }
+%>
 <div class="dashboard-grid">
   <!-- Main Column: Datasets -->
   <div class="dashboard-main">
@@ -27,7 +41,7 @@
                 <th>G1 Mean</th>
                 <th>G1 Range</th>
                 <th>Uploaded</th>
-                <th>Actions</th>
+                <th style="text-align: right; width: 1%; white-space: nowrap;">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -43,12 +57,13 @@
                   <td><b><%= d.g1_mean.toFixed(2) %>/20</b></td>
                   <td><span class="badge-range"><%= d.g1_min %> &mdash; <%= d.g1_max %></span></td>
                   <td>
+                    <% const warsawUpload = formatWarsaw(d.created_at); %>
                     <div class="upload-time-cell">
-                      <span class="upload-date"><%= new Date(d.created_at).toLocaleDateString() %></span>
-                      <span class="upload-time"><%= new Date(d.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) %></span>
+                      <span class="upload-date"><%= warsawUpload.date %></span>
+                      <span class="upload-time"><%= warsawUpload.time %></span>
                     </div>
                   </td>
-                  <td>
+                  <td style="text-align: right; white-space: nowrap;">
                     <a href="/datasets/<%= d.id %>" class="button-small">View Details</a>
                   </td>
                 </tr>
@@ -83,14 +98,14 @@
               <div class="run-info">
                 <a href="/runs/<%= run.id %>" class="run-title">Run #<%= run.id.slice(0, 8) %></a>
                 <span class="run-dataset"><%= run.filename %></span>
+                <% const warsawRun = formatWarsaw(run.created_at); %>
                 <span class="run-date">
-                  <%= new Date(run.created_at).toLocaleDateString() %>
-                  <%= new Date(run.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) %>
+                  <%= warsawRun.date %> <%= warsawRun.time %>
                 </span>
               </div>
               <div class="run-badge-wrap">
                 <% if (typeof run.at_risk_count !== 'undefined') { %>
-                  <span class="badge-risk"><%= run.at_risk_count %> / <%= run.total_records %> At-Risk</span>
+                  <span class="badge-risk <%= (run.at_risk_count > 0) ? 'high' : 'low' %>"><%= run.at_risk_count %> / <%= run.total_records %> At-Risk</span>
                 <% } else { %>
                   <span class="badge-completed">Completed</span>
                 <% } %>
