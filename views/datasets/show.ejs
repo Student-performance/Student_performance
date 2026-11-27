@@ -25,10 +25,165 @@
 
   <div style="margin: 24px 0;">
     <% if (typeof predictionAvailable !== 'undefined' && predictionAvailable) { %>
-      <form method="POST" action="/datasets/<%= dataset.id %>/predict">
+      <form method="POST" action="/datasets/<%= dataset.id %>/predict" id="predictForm">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        <button type="submit" class="button">Run Risk Prediction</button>
+        <button type="submit" class="button" id="predictBtn">Run Risk Prediction</button>
       </form>
+
+      <!-- Phased AI Prediction Stepper (Option 2) -->
+      <div id="predictProgressCard" class="predict-progress-card" aria-live="polite">
+        <div class="predict-progress-header">
+          <div class="predict-progress-title">
+            <span class="predict-pulsing-dot"></span>
+            <span>Running AI Risk Prediction...</span>
+          </div>
+          <span class="predict-progress-time" id="predictElapsed">0.0s</span>
+        </div>
+
+        <div class="predict-progress-track">
+          <div class="predict-progress-fill"></div>
+        </div>
+
+        <ul class="predict-stepper">
+          <li class="predict-step is-active" id="step-1">
+            <span class="predict-step-icon">1</span>
+            <span class="predict-step-text">Preparing student feature records &amp; envelope...</span>
+          </li>
+          <li class="predict-step" id="step-2">
+            <span class="predict-step-icon">2</span>
+            <span class="predict-step-text">Invoking frozen Python model (<code>student_risk_v1</code>)...</span>
+          </li>
+          <li class="predict-step" id="step-3">
+            <span class="predict-step-icon">3</span>
+            <span class="predict-step-text">Validating schema contracts &amp; risk threshold (0.50)...</span>
+          </li>
+          <li class="predict-step" id="step-4">
+            <span class="predict-step-icon">4</span>
+            <span class="predict-step-text">Saving prediction run &amp; redirecting to dashboard...</span>
+          </li>
+        </ul>
+      </div>
+
+      <script>
+        (function() {
+          var form = document.getElementById('predictForm');
+          var btn = document.getElementById('predictBtn');
+          var card = document.getElementById('predictProgressCard');
+          var elapsedEl = document.getElementById('predictElapsed');
+          if (!form || !btn || !card) return;
+
+          // Reset UI if user returns via browser Back button
+          window.addEventListener('pageshow', function(e) {
+            if (e.persisted) {
+              btn.disabled = false;
+              btn.style.opacity = '1';
+              btn.style.cursor = 'pointer';
+              btn.textContent = 'Run Risk Prediction';
+              card.style.display = 'none';
+            }
+          });
+
+          form.addEventListener('submit', function(e) {
+            // Prevent immediate navigation so the user can experience the animation
+            if (window.fetch) {
+              e.preventDefault();
+            } else {
+              return; // Graceful fallback for non-fetch browsers
+            }
+
+            // Lock button immediately to prevent double submissions
+            btn.disabled = true;
+            btn.style.opacity = '0.65';
+            btn.style.cursor = 'not-allowed';
+            btn.textContent = '⏳ Running Prediction...';
+
+            card.style.display = 'block';
+
+            var start = Date.now();
+            var timer = setInterval(function() {
+              var sec = ((Date.now() - start) / 1000).toFixed(1);
+              if (elapsedEl) elapsedEl.textContent = sec + 's';
+            }, 100);
+
+            function setStepDone(id) {
+              var el = document.getElementById(id);
+              if (!el) return;
+              el.classList.remove('is-active');
+              el.classList.add('is-done');
+              var icon = el.querySelector('.predict-step-icon');
+              if (icon) icon.innerHTML = '&#10003;';
+            }
+
+            function setStepActive(id) {
+              var el = document.getElementById(id);
+              if (!el) return;
+              el.classList.add('is-active');
+            }
+
+            function wait(ms) {
+              return new Promise(function(resolve) { setTimeout(resolve, ms); });
+            }
+
+            // Initiate backend prediction execution
+            var body = new URLSearchParams(new FormData(form));
+            var fetchPromise = fetch(form.action, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+              },
+              body: body
+            });
+
+            // Orchestrated animation sequence
+            (async function() {
+              try {
+                // Step 1: Feature Extraction
+                await wait(650);
+                setStepDone('step-1');
+                setStepActive('step-2');
+
+                // Step 2: Frozen ML Model Execution
+                await wait(900);
+                setStepDone('step-2');
+                setStepActive('step-3');
+
+                // Step 3: Schema & Threshold Validation
+                await wait(750);
+                setStepDone('step-3');
+                setStepActive('step-4');
+
+                // Await backend completion
+                var response = await fetchPromise;
+
+                if (!response.ok && response.status >= 400) {
+                  clearInterval(timer);
+                  alert('Prediction encountered an error. Please check server logs.');
+                  btn.disabled = false;
+                  btn.textContent = 'Run Risk Prediction';
+                  btn.style.opacity = '1';
+                  btn.style.cursor = 'pointer';
+                  return;
+                }
+
+                // Step 4: Finalizing & Saving
+                await wait(600);
+                setStepDone('step-4');
+
+                // Pleasant pause so user sees all 4 green checkmarks complete
+                await wait(450);
+                clearInterval(timer);
+
+                // Smoothly navigate to the newly created run results
+                window.location.href = response.url;
+              } catch (err) {
+                clearInterval(timer);
+                console.error('Fetch error, falling back to native submission:', err);
+                form.submit();
+              }
+            })();
+          });
+        })();
+      </script>
     <% } else { %>
       <p>Prediction is unavailable until the frozen model and Sprint 3 routes are integrated.</p>
     <% } %>

@@ -1113,3 +1113,180 @@ body {
   font-family: var(--font-mono, monospace);
   font-size: 12px;
 }
+
+/* Phased AI Prediction Stepper (Sprint 3 Polish) */
+.predict-progress-card {
+  display: none;
+  margin-top: 18px;
+  max-width: 580px;
+  background: var(--color-panel, #ffffff);
+  border: 1px solid var(--color-border, #e2e8e0);
+  border-left: 4px solid var(--color-primary, #19724f);
+  border-radius: var(--border-radius-md, 10px);
+  padding: 18px 22px;
+  box-shadow: 0 4px 18px rgba(25, 55, 45, 0.06);
+  animation: predictFadeIn 0.25s ease-in-out;
+}
+
+@keyframes predictFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.predict-progress-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.predict-progress-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-ink, #19372d);
+}
+
+.predict-pulsing-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--color-primary, #19724f);
+  display: inline-block;
+  box-shadow: 0 0 0 0 rgba(25, 114, 79, 0.7);
+  animation: predictPulseDot 1.4s infinite;
+}
+
+@keyframes predictPulseDot {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(25, 114, 79, 0.6); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 8px rgba(25, 114, 79, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(25, 114, 79, 0); }
+}
+
+.predict-progress-time {
+  font-size: 12px;
+  font-family: var(--font-mono, monospace);
+  font-weight: 600;
+  color: var(--color-muted, #64748b);
+  background: var(--color-surface, #f2f5f1);
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--color-border, #e2e8e0);
+}
+
+/* Shimmer Progress Track */
+.predict-progress-track {
+  width: 100%;
+  height: 6px;
+  background: #e9ecef;
+  border-radius: 999px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.predict-progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(25, 114, 79, 0.2) 0%,
+    rgba(25, 114, 79, 0.85) 50%,
+    rgba(25, 114, 79, 0.2) 100%
+  );
+  background-size: 200% 100%;
+  animation: predictShimmer 1.5s infinite linear;
+}
+
+@keyframes predictShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Phased Stepper List */
+.predict-stepper {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.predict-step {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-size: 13px;
+  color: var(--color-muted, #64748b);
+  transition: color 0.2s ease, font-weight 0.2s ease;
+}
+
+.predict-step code {
+  font-size: 11px;
+  background: #edf2ee;
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.predict-step.is-active {
+  color: var(--color-ink, #19372d);
+  font-weight: 600;
+}
+
+.predict-step.is-done {
+  color: var(--color-ink, #19372d);
+}
+
+.predict-step-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  flex-shrink: 0;
+  background: #f1f5f2;
+  color: #64748b;
+  border: 1px solid #d1dbd4;
+  transition: all 0.25s ease;
+}
+
+.predict-step.is-active .predict-step-icon {
+  background: var(--color-primary-light, #e8f5ee);
+  color: var(--color-primary, #19724f);
+  border: 1.5px solid var(--color-primary, #19724f);
+  box-shadow: 0 0 0 2px rgba(25, 114, 79, 0.15);
+}
+
+.predict-step.is-done .predict-step-icon {
+  background: #dcfce7;
+  color: #16a34a;
+  border: 1.5px solid #86efac;
+  font-weight: bold;
+  animation: predictPopCheck 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes predictPopCheck {
+  0% { transform: scale(0.8); }
+  50% { transform: scale(1.22); }
+  100% { transform: scale(1); }
+}
+
+/* Motion Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .predict-progress-card {
+    animation: none;
+  }
+  .predict-pulsing-dot,
+  .predict-progress-fill {
+    animation: none;
+  }
+}
