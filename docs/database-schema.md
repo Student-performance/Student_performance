@@ -27,3 +27,11 @@ StudentRows (1) -> (N) PredictionResults across runs; UNIQUE(run_id, student_row
 - Ownership: every query must filter by the logged-in account, otherwise one user could read another user's datasets.
 - `role` has no CHECK constraint, so the service must only write valid values.
 - The `sessions` table belongs to connect-sqlite3 and has no foreign key; the user ID lives inside the serialized `sess` column.
+
+## Prediction runs (Sprint 3)
+- A run is stored only when complete. `saveCompletedRun` validates everything first, then inserts the run and all its results in one transaction. There is no running/failed lifecycle.
+- Chosen failure behaviour: all-or-none. If any write fails (for example the second result), the transaction rolls back and no run or result rows remain.
+- `model_version`, `schema_version`, `threshold` and `created_at` are copied onto each run. Models and thresholds change over time, so an old score cannot be interpreted without the version and threshold that produced it.
+- Enforced by SQLite: `UNIQUE(run_id, student_row_id)`, foreign keys with cascade, and (migration 002, on insert) score between 0 and 1, result record in the same dataset as its run, and run account equal to the dataset owner.
+- Enforced by the service: result IDs match the dataset records exactly (no missing, duplicate or unknown IDs); `total_records` and `at_risk_count` are computed from the saved results; `risk_flag` is `risk_score >= threshold`; reads are filtered by account and return null for runs owned by someone else.
+- Limit: the migration 002 triggers cover inserts only, not later updates.

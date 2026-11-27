@@ -10,3 +10,4 @@ Synthetic fixture: data/examples/student_two_rows.csv. Raw student-mat.csv is se
 - **Mandatory features**: All 31 canonical features must be present for every student row with non-empty values. Rows with missing feature fields are rejected with descriptive errors (capped at 50 errors).
 - **Target leakage prevention**: Optional historical grade columns `G2` and `G3` are stripped upon ingestion and never stored in `student_rows` or `features_json`.
 - **Timestamp & ID disambiguation**: Repeated uploads of the same filename are permitted and disambiguated in the user interface by a unique sequential `#ID` badge and exact UTC upload timestamp (`YYYY-MM-DD HH:mm:ss`), displayed newest-first.
+- **Unknown columns are rejected**: the only exceptions are G2/G3 (accepted and discarded) and the optional synthetic labels row_identifier/student_row_id. A file with a missing or unknown column is rejected as a whole and nothing is saved.
