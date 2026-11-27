@@ -51,7 +51,10 @@ function executePrediction(rows, options = {}) {
             try { settle(null, JSON.parse(Buffer.concat(chunks).toString('utf8'))); }
             catch { settle(new Error('Invalid JSON stdout')); }
         });
-        try { child.stdin.end(JSON.stringify({ schema_version: 'schema-v1', rows })); }
+        const payload = Array.isArray(rows)
+            ? { schema_version: 'schema-v1', rows }
+            : (rows && Array.isArray(rows.rows) ? rows : { schema_version: 'schema-v1', rows });
+        try { child.stdin.end(JSON.stringify(payload)); }
         catch (error) { terminate(error); }
     });
 }
