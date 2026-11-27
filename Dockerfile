@@ -26,9 +26,8 @@ COPY . .
 # Set environment variables
 ENV NODE_ENV=production
 ENV PORT=3000
-ENV PYTHON_PATH=/app/.venv/bin/python
-ENV DATABASE_PATH=/app/data/app.db
-ENV SESSION_SECRET=production-secret-must-be-at-least-32-characters-long
+ENV PYTHON_PATH=./.venv/bin/python
+ENV DATABASE_PATH=./data/app.db
 
 # Ensure data directory exists
 RUN mkdir -p /app/data
