@@ -31,6 +31,13 @@ router.get('/:id', (req, res) => {
     const totalPages = Math.max(1, Math.ceil(dataset.row_count / 25));
     const page = Math.min(totalPages, Math.max(1, Number.parseInt(req.query.page, 10) || 1));
     const rows = db.all('SELECT * FROM student_rows WHERE dataset_id = ? ORDER BY row_index LIMIT 25 OFFSET ?', dataset.id, (page - 1) * 25);
-    res.render('datasets/show', { title: dataset.filename, dataset, rows, pagination: { page, totalPages, total: dataset.row_count } });
+    res.render('datasets/show', {
+        title: dataset.filename,
+        dataset,
+        rows,
+        predictionAvailable: true,
+        csrfToken: (res.locals && res.locals.csrfToken) || (req.csrfToken && req.csrfToken()) || '',
+        pagination: { page, totalPages, total: dataset.row_count }
+    });
 });
 module.exports = router;
