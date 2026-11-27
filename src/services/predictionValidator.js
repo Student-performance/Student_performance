@@ -13,7 +13,11 @@ function validatePredictionOutput(output, inputRows, modelVersion = 'student_ris
         const label = input.row_identifier || result.row_id;
         if (result.student_row_id !== id || result.row_identifier !== label) throw new Error('Identifier mismatch');
         if (!Number.isFinite(result.risk_score) || result.risk_score < 0 || result.risk_score > 1) throw new Error('Invalid risk score');
-        if (result.risk_flag !== Number(result.risk_score >= output.threshold)) throw new Error('Risk flag mismatch');
+        const expectedFlag = result.risk_score >= output.threshold;
+        const flagMatches = typeof result.risk_flag === 'boolean'
+            ? result.risk_flag === expectedFlag
+            : (result.risk_flag === 0 || result.risk_flag === 1) && result.risk_flag === Number(expectedFlag);
+        if (!flagMatches) throw new Error('Risk flag mismatch');
     }
     return true;
 }
