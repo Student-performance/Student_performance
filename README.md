@@ -1,6 +1,6 @@
 # Student Performance — Sprint 1
 
-> Educational web platform for student performance risk analysis using Express, EJS, SQLite, and a Python ML contract spike.  
+> Educational web platform for student performance risk analysis using Express, EJS, SQLite, and a frozen Python prediction CLI.
 > *Note: Execute all commands from this target repository root, not the planning website repository.*
 
 ---
@@ -21,7 +21,7 @@
 ## ⚙️ Prerequisites
 
 - **Node.js**: `>= 24 < 25` (run `nvm use` if using NVM; `.nvmrc` is included)
-- **Python**: `3.12.x` (or `>= 3.10` compatible)
+- **Python**: 3.12.x(required: the frozen model checks the pinned package versions inrequirements.txt)
 - **Git** & terminal shell (Bash, Zsh, or PowerShell 7+)
 
 ---
@@ -100,11 +100,10 @@ npm run seed
 # 3. Run database integrity and adapter test suite
 npm test
 
-# 4. Verify ML contract spike
+# 4. Verify the frozen prediction CLI
 # Linux / macOS:
-.venv/bin/python ml/check_spike_contract.py
-# Windows:
-& .venv/Scripts/python.exe ml/check_spike_contract.py
+.venv/bin/python ml/check_sprint3_cli.py
+& .venv/Scripts/python.exe ml/check_sprint3_cli.py
 ```
 
 > [!NOTE]
@@ -146,7 +145,7 @@ After the automated tests pass, open [http://localhost:3000/register](http://loc
 - **Features**: Inference uses all 31 canonical features, including `G1` and excluding targets `G2` and `G3`.
 - **Schemas**: Validated via `ml/schemas/schema-v1.json`, `ml/contract.py`, and fixtures under `ml/examples/`.
 - **Envelope Protocol**: Bare input arrays return row-result arrays; `{ schema_version, rows }` envelopes return run metadata and risk score results. W1's adapter sends an envelope.
-- **Model Version**: Sprint 1 model version is `v0.1-toy-contract-spike` (scores are protocol probes, not measured predictions). Sprint 3 will replace `predict.py` with frozen-model inference.
+- **Model Version**: `student_risk_v1`, a frozen Random Forest selected by ST in S3-ST-01 (threshold 0.5). `ml/predict.py` loads `ml/models/student_risk_v1.pkl` and its metadata; the Sprint 1 toy check `ml/check_spike_contract.py` no longer applies. Details: `docs/frozen-cli-handoff.md`.
 
 ---
 
