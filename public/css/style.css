@@ -1271,6 +1271,13 @@ body {
   color: #16a34a;
   border: 1.5px solid #86efac;
   font-weight: bold;
+  animation: predictPopCheck 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes predictPopCheck {
+  0% { transform: scale(0.8); }
+  50% { transform: scale(1.22); }
+  100% { transform: scale(1); }
 }
 
 /* Motion Accessibility */

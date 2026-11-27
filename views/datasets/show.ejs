@@ -72,19 +72,35 @@
           var elapsedEl = document.getElementById('predictElapsed');
           if (!form || !btn || !card) return;
 
-          form.addEventListener('submit', function() {
+          // Reset UI if user returns via browser Back button
+          window.addEventListener('pageshow', function(e) {
+            if (e.persisted) {
+              btn.disabled = false;
+              btn.style.opacity = '1';
+              btn.style.cursor = 'pointer';
+              btn.textContent = 'Run Risk Prediction';
+              card.style.display = 'none';
+            }
+          });
+
+          form.addEventListener('submit', function(e) {
+            // Prevent immediate navigation so the user can experience the animation
+            if (window.fetch) {
+              e.preventDefault();
+            } else {
+              return; // Graceful fallback for non-fetch browsers
+            }
+
             // Lock button immediately to prevent double submissions
-            setTimeout(function() {
-              btn.disabled = true;
-              btn.style.opacity = '0.65';
-              btn.style.cursor = 'not-allowed';
-              btn.textContent = '⏳ Running Prediction...';
-            }, 10);
+            btn.disabled = true;
+            btn.style.opacity = '0.65';
+            btn.style.cursor = 'not-allowed';
+            btn.textContent = '⏳ Running Prediction...';
 
             card.style.display = 'block';
 
             var start = Date.now();
-            setInterval(function() {
+            var timer = setInterval(function() {
               var sec = ((Date.now() - start) / 1000).toFixed(1);
               if (elapsedEl) elapsedEl.textContent = sec + 's';
             }, 100);
@@ -104,21 +120,67 @@
               el.classList.add('is-active');
             }
 
-            // Milestone timings matching typical execution phases
-            setTimeout(function() {
-              setStepDone('step-1');
-              setStepActive('step-2');
-            }, 900);
+            function wait(ms) {
+              return new Promise(function(resolve) { setTimeout(resolve, ms); });
+            }
 
-            setTimeout(function() {
-              setStepDone('step-2');
-              setStepActive('step-3');
-            }, 2300);
+            // Initiate backend prediction execution
+            var body = new URLSearchParams(new FormData(form));
+            var fetchPromise = fetch(form.action, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+              },
+              body: body
+            });
 
-            setTimeout(function() {
-              setStepDone('step-3');
-              setStepActive('step-4');
-            }, 3600);
+            // Orchestrated animation sequence
+            (async function() {
+              try {
+                // Step 1: Feature Extraction
+                await wait(650);
+                setStepDone('step-1');
+                setStepActive('step-2');
+
+                // Step 2: Frozen ML Model Execution
+                await wait(900);
+                setStepDone('step-2');
+                setStepActive('step-3');
+
+                // Step 3: Schema & Threshold Validation
+                await wait(750);
+                setStepDone('step-3');
+                setStepActive('step-4');
+
+                // Await backend completion
+                var response = await fetchPromise;
+
+                if (!response.ok && response.status >= 400) {
+                  clearInterval(timer);
+                  alert('Prediction encountered an error. Please check server logs.');
+                  btn.disabled = false;
+                  btn.textContent = 'Run Risk Prediction';
+                  btn.style.opacity = '1';
+                  btn.style.cursor = 'pointer';
+                  return;
+                }
+
+                // Step 4: Finalizing & Saving
+                await wait(600);
+                setStepDone('step-4');
+
+                // Pleasant pause so user sees all 4 green checkmarks complete
+                await wait(450);
+                clearInterval(timer);
+
+                // Smoothly navigate to the newly created run results
+                window.location.href = response.url;
+              } catch (err) {
+                clearInterval(timer);
+                console.error('Fetch error, falling back to native submission:', err);
+                form.submit();
+              }
+            })();
           });
         })();
       </script>
