@@ -21,7 +21,7 @@
 ## ⚙️ Prerequisites
 
 - **Node.js**: `>= 24 < 25` (run `nvm use` if using NVM; `.nvmrc` is included)
-- **Python**: 3.12.x(required: the frozen model checks the pinned package versions inrequirements.txt)
+- **Python**: `3.12.x` (required: the frozen model checks the pinned package versions in `requirements.txt`)
 - **Git** & terminal shell (Bash, Zsh, or PowerShell 7+)
 
 ---
