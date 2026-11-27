@@ -53,6 +53,6 @@ freeze_record = {
 The selected pipeline and threshold are now frozen: no refitting on train+validation, no further tuning. Nothing about this choice changes after test results are seen.
 
 # S3-ST-01 — Step 7: Publish
-- Commit SHA: [fill in after you commit/push]
-- PR: [fill in after you open the PR]
+- Commit SHA: c1747e2f2777d0ad27cb6bc35538725007033a58
+- PR: (https://github.com/Student-performance/Student_performance/pull/20)
 - Reviewer: Carla Susana López Puma — review requested [27.11.2026]
