@@ -1,0 +1,166 @@
+<div class="card-panel">
+  <h2>Model Evaluation</h2>
+
+  <p>
+    This page presents the model's evaluation results and the
+    limitations of the student-performance prediction system.
+  </p>
+
+  <div class="stat-tile" style="margin-bottom: 24px;">
+    <span class="stat-label">Evaluation Data Status</span>
+    <strong>Synthetic Demo Fixture</strong>
+    <p>
+      The values and content displayed in this template are illustrative
+      fixtures for frontend development. They are not verified model results.
+    </p>
+  </div>
+
+  <h3>Validation Results</h3>
+
+  <p>
+    Validation results are used during model development and selection.
+    They are separate from the final held-out test results.
+  </p>
+
+
+  <div class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th>Accuracy</th>
+          <th>Precision</th>
+          <th>Recall</th>
+          <th>F1 Score</th>
+          <th>ROC-AUC</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>Baseline</td>
+          <td>Not yet available</td>
+          <td>Not yet available</td>
+          <td>Not yet available</td>
+          <td>Not yet available</td>
+          <td>Not yet available</td>
+        </tr>
+
+        <tr>
+          <td>Logistic Regression</td>
+          <td>Not yet available</td>
+          <td>Not yet available</td>
+          <td>Not yet available</td>
+          <td>Not yet available</td>
+          <td>Not yet available</td>
+        </tr>
+
+        <tr>
+          <td>Random Forest</td>
+          <td>Not yet available</td>
+          <td>Not yet available</td>
+          <td>Not yet available</td>
+          <td>Not yet available</td>
+          <td>Not yet available</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <h3>Final Test Results</h3>
+
+
+  <p>
+    Final test results must come from the held-out test set.
+    They must not be confused with validation results or used
+    during model selection.
+  
+    Held-out results remain unavailable until Sprint 4,
+    after model selection is complete and the model is frozen.
+  </p>
+  
+
+  <div class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Final Test Result</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>Accuracy</td>
+          <td>Pending verified results</td>
+        </tr>
+        <tr>
+          <td>Precision</td>
+          <td>Pending verified results</td>
+        </tr>
+        <tr>
+          <td>Recall</td>
+          <td>Pending verified results</td>
+        </tr>
+        <tr>
+          <td>F1 Score</td>
+          <td>Pending verified results</td>
+        </tr>
+        <tr>
+          <td>ROC-AUC</td>
+          <td>Pending verified results</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Confusion Matrix</h3>
+
+  <p>
+    The confusion matrix summarizes correct and incorrect
+    classifications on the final held-out test set.
+  </p>
+
+  <div class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Predicted Not At Risk</th>
+          <th>Predicted At Risk</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <th>Actual Not At Risk</th>
+          <td>Pending verified count</td>
+          <td>Pending verified count</td>
+        </tr>
+        <tr>
+          <th>Actual At Risk</th>
+          <td>Pending verified count</td>
+          <td>Pending verified count</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Limitations</h3>
+
+  <ul>
+    <li>
+      Predictions indicate estimated risk and do not guarantee
+      a student's final academic outcome.
+    </li>
+    <li>
+      Model performance depends on the quality and representativeness
+      of the data used for training and evaluation.
+    </li>
+    <li>
+      Evaluation metrics describe performance on the relevant
+      dataset and may not generalize to every student population.
+    </li>
+  </ul>
+</div>
