@@ -1,0 +1,23 @@
+{
+  "success": true,
+  "model_version": "student_risk_v1",
+  "schema_version": "schema-v1",
+  "threshold": 0.5,
+  "count": 2,
+  "results": [
+    {
+      "row_id": "ROW-001",
+      "student_row_id": "sr-001",
+      "row_identifier": "ROW-001",
+      "risk_score": 0.21224834110356053,
+      "risk_flag": false
+    },
+    {
+      "row_id": "ROW-002",
+      "student_row_id": "sr-002",
+      "row_identifier": "ROW-002",
+      "risk_score": 0.7460303212786299,
+      "risk_flag": true
+    }
+  ]
+}
