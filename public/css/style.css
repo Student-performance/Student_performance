@@ -759,16 +759,18 @@ body {
 
 .badge-risk {
   display: inline-block;
-  padding: 2px 8px;
-  border-radius: 12px;
+  padding: 4px 8px;
+  border-radius: 6px;
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .badge-risk.high {
   background: var(--color-danger-bg, #fee2e2);
   color: var(--color-danger, #dc2626);
+  border: 1px solid #fca5a5;
 }
 
 .badge-risk.moderate {
@@ -779,6 +781,18 @@ body {
 .badge-risk.low {
   background: var(--color-success-bg, #dcfce7);
   color: var(--color-success, #16a34a);
+  border: 1px solid #86efac;
+}
+
+.badge-completed {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  background: #e2e8e0;
+  color: #334155;
+  white-space: nowrap;
 }
 
 .badge-range {
@@ -800,6 +814,113 @@ body {
   background: var(--color-primary-light, #e8f5ee);
   color: var(--color-primary, #19724f);
   margin-left: 8px;
+}
+
+/* Sidebar Prediction Runs Card */
+.panel-header-compact {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-border, #e2e8e0);
+}
+
+.panel-header-compact h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-ink, #19372d);
+}
+
+.runs-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.run-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: #fafcfa;
+  border: 1px solid var(--color-border, #e2e8e0);
+  border-radius: 8px;
+  transition: all 0.15s ease;
+}
+
+.run-item:hover {
+  background: #ffffff;
+  border-color: var(--color-primary, #19724f);
+  box-shadow: 0 2px 8px rgba(25, 114, 79, 0.08);
+}
+
+.run-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.run-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--color-primary, #19724f);
+  text-decoration: none;
+  font-family: var(--font-mono, monospace);
+}
+
+.run-title:hover {
+  text-decoration: underline;
+}
+
+.run-dataset {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-ink, #19372d);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.run-date {
+  font-size: 11px;
+  color: var(--color-muted, #64748b);
+}
+
+.run-badge-wrap {
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.empty-runs {
+  text-align: center;
+  padding: 32px 16px;
+}
+
+.runs-icon {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.runs-empty-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-ink, #19372d);
+  margin: 0 0 4px 0;
+}
+
+.runs-empty-sub {
+  font-size: 12px;
+  color: var(--color-muted, #64748b);
+  margin: 0;
+  line-height: 1.4;
 }
 
 /* Upload Specification Card & Drop Zone */

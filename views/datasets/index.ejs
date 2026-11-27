@@ -105,7 +105,7 @@
               </div>
               <div class="run-badge-wrap">
                 <% if (typeof run.at_risk_count !== 'undefined') { %>
-                  <span class="badge-risk"><%= run.at_risk_count %> / <%= run.total_records %> At-Risk</span>
+                  <span class="badge-risk <%= (run.at_risk_count > 0) ? 'high' : 'low' %>"><%= run.at_risk_count %> / <%= run.total_records %> At-Risk</span>
                 <% } else { %>
                   <span class="badge-completed">Completed</span>
                 <% } %>
