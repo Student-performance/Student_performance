@@ -1,0 +1,80 @@
+
+<div class="card-panel">
+  <h2>Saved Prediction Run</h2>
+
+  <p><strong>Demo context:</strong> Synthetic fixture for frontend development.</p>
+
+  <div class="metric-grid grid-4">
+    <div class="stat-tile">
+      <span class="stat-label">Model Version</span>
+      <strong><%= run.model_version %></strong>
+    </div>
+
+    <div class="stat-tile">
+      <span class="stat-label">Timestamp</span>
+      <strong><%= run.created_at %></strong>
+    </div>
+
+    <div class="stat-tile">
+      <span class="stat-label">Dataset</span>
+      <strong><%= dataset.filename %></strong>
+    </div>
+
+    <div class="stat-tile">
+      <span class="stat-label">Threshold</span>
+      <strong><%= run.threshold %></strong>
+    </div>
+
+    <div class="stat-tile">
+      <span class="stat-label">Row Count</span>
+      <strong><%= run.total_records %></strong>
+    </div>
+  </div>
+
+  <h3>
+    Prediction Results
+    (Page <%= pagination.page %> of <%= pagination.totalPages %>)
+  </h3>
+
+  <p class="notice">
+    The risk score is a model-generated indicator, not a measured certainty
+    about an individual student and not a diagnosis. It does not represent
+    or predict a student's numeric final grade.
+  </p>  
+
+  <div class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Source Row ID</th>
+          <th>Risk Score</th>
+          <th>Risk Flag</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% if (rows && rows.length > 0) { %>
+          <% rows.forEach(r => { %>
+            <tr>
+              <td><code><%= r.row_identifier %></code></td>
+              <td><%= Number(r.risk_score).toFixed(2) %></td>
+              <td>
+                <% if (r.risk_flag === 1) { %>
+                  At Risk
+                <% } else { %>
+                  Not At Risk
+                <% } %>
+              </td>
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr>
+            <td colspan="3">No prediction rows are available.</td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%- include("../partials/pagination", { pagination }) %>
